@@ -3,15 +3,11 @@
  */
 public class HappyNumberChecker {
 
-    public boolean isHappy(int number) {
-        return checkHappinessCondition(number);
-    }
-
-    private boolean checkHappinessCondition(int number) {
-        while (number > 9) {
+    boolean isHappy(int number) {
+        while (number > 4) {
             number = sumDigits(number);
         }
-        return number == 1 || number == 7;
+        return number == 1;
     }
 
     private int sumDigits(int number) {
