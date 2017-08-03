@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -13,47 +12,44 @@ import static org.junit.Assert.assertTrue;
 public class BidirectionalLinkAdditionTest {
 
     private Graph<Integer> g;
-    private Edge<Integer> edge;
+    private Node<Integer> source;
+    private Node<Integer> destination;
 
     @Before
     public void setUp() throws Exception {
         g = new Graph<>();
-        edge = new Edge<>(1, 2);
-        g.add(1, 2, true);
+        source = new Node<>(1);
+        destination = new Node<>(2);
+        g.add(source, destination, true);
     }
 
     @After
     public void tearDown() throws Exception {
         g = null;
-        edge = null;
     }
 
     @Test
     public void testEdgeExists() {
-        assertTrue(g.getEdges().contains(edge));
+        assertTrue(g.getEdges().contains(new Edge<>(source, destination)));
     }
 
     @Test
     public void testNode1To2Connection() {
-        Node<Integer> one = edge.getOne();
-        Node<Integer> two = edge.getTwo();
-        assertTrue(g.connectionExistsBetween(one, two));
+        assertTrue(g.connectionExistsBetween(source, destination));
     }
 
     @Test
     public void testNode2To1Connection() {
-        Node<Integer> one = edge.getOne();
-        Node<Integer> two = edge.getTwo();
-        assertTrue(g.connectionExistsBetween(two, one));
+        assertTrue(g.connectionExistsBetween(destination, source));
     }
 
     @Test
     public void testSourceNodeExists() {
-        assertTrue(g.getNodes().contains(edge.getOne()));
+        assertTrue(g.getNodes().contains(source));
     }
 
     @Test
     public void testDestinationNodeExists() {
-        assertTrue(g.getNodes().contains(edge.getTwo()));
+        assertTrue(g.getNodes().contains(destination));
     }
 }

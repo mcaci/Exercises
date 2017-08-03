@@ -18,9 +18,25 @@ public class Graph<T> {
     }
 
     private void add(T nodeContent) {
-        Node<T> node = new Node<>(nodeContent);
+        add(new Node<>(nodeContent));
+    }
+
+    private void add(Node<T> node) {
         if (!nodes.contains(node)) {
             nodes.add(node);
+        }
+    }
+
+    public void add(Node<T> source, Node<T> destination) {
+        add(source,destination,false);
+    }
+
+    public void add(Node<T> source, Node<T> destination, boolean isBidirectional) {
+        add(source);
+        add(destination);
+        edges.add(new Edge<>(source, destination));
+        if(isBidirectional){
+            edges.add(new Edge<>(destination, source));
         }
     }
 
@@ -29,12 +45,9 @@ public class Graph<T> {
     }
 
     public void add(T sourceNodeContent, T destinationNodeContent, boolean isBidirectional) {
-        add(sourceNodeContent);
-        add(destinationNodeContent);
-        edges.add(new Edge<>(sourceNodeContent, destinationNodeContent));
-        if(isBidirectional){
-            edges.add(new Edge<>(destinationNodeContent, sourceNodeContent));
-        }
+        Node<T> source = new Node<>(sourceNodeContent);
+        Node<T> destination = new Node<>(destinationNodeContent);
+        add(source, destination, isBidirectional);
     }
 
     public List<Edge<T>> getEdges() {
