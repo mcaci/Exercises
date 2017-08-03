@@ -3,14 +3,12 @@ package graph;
 /**
  * Created by mcaci on 8/2/17.
  */
-public class Node {
+public class Node<T> {
 
-    private final int id;
-    private boolean gateway;
+    private final T t;
 
-    public Node(int id) {
-        this.id = id;
-        this.gateway = false;
+    public Node(T t) {
+        this.t = t;
     }
 
     @Override
@@ -18,21 +16,13 @@ public class Node {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Node node = (Node) o;
+        Node<?> node = (Node<?>) o;
 
-        return id == node.id;
+        return t != null ? t.equals(node.t) : node.t == null;
     }
 
     @Override
     public int hashCode() {
-        return id;
-    }
-
-    public boolean isGateway() {
-        return gateway;
-    }
-
-    public void setGateway(boolean gateway) {
-        this.gateway = gateway;
+        return t != null ? t.hashCode() : 0;
     }
 }
