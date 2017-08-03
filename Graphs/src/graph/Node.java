@@ -1,4 +1,4 @@
-package vol1.graph;
+package graph;
 
 /**
  * Created by mcaci on 8/2/17.
