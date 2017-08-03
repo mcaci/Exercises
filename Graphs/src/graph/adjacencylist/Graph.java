@@ -33,21 +33,6 @@ public class Graph<T> {
         add(source,destination,false);
     }
 
-    public void add(T sourceNodeContent, T destinationNodeContent) {
-        add(sourceNodeContent,destinationNodeContent,false);
-    }
-
-
-    public void add(T sourceNodeContent, T destinationNodeContent, boolean isBidirectional) {
-        Node<T> source = new Node<>(sourceNodeContent);
-        Node<T> destination = new Node<>(destinationNodeContent);
-        add(source);
-        add(destination);
-        source.getAdjacentNodes().add(destination);
-        if(isBidirectional){
-            destination.getAdjacentNodes().add(source);
-        }
-    }
 
     public void removeEdge(Node<T> source, Node<T> destination) {
         source.getAdjacentNodes().removeIf(e -> e.equals(destination));
