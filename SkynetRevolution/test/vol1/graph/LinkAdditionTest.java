@@ -1,4 +1,4 @@
-package vol1;
+package vol1.graph;
 
 import org.junit.After;
 import org.junit.Before;
@@ -33,12 +33,26 @@ public class LinkAdditionTest {
     }
 
     @Test
+    public void testNode1To2Connection() {
+        Node one = edge.getOne();
+        Node two = edge.getTwo();
+        assertTrue(g.connectionExistsBetween(one, two));
+    }
+
+    @Test
+    public void testNode2To1Connection() {
+        Node one = edge.getOne();
+        Node two = edge.getTwo();
+        assertTrue(g.connectionExistsBetween(two, one));
+    }
+
+    @Test
     public void testSourceNodeExists() {
-        assertTrue(g.getNodes().contains(edge.one));
+        assertTrue(g.getNodes().contains(edge.getOne()));
     }
 
     @Test
     public void testDestinationNodeExists() {
-        assertTrue(g.getNodes().contains(edge.two));
+        assertTrue(g.getNodes().contains(edge.getTwo()));
     }
 }

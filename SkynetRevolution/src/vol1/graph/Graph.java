@@ -1,4 +1,4 @@
-package vol1;
+package vol1.graph;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -19,8 +19,9 @@ public class Graph {
 
     public void add(Edge edge) {
         edges.add(edge);
-        addNode(edge.one);
-        addNode(edge.two);
+        edges.add(edge.reverse());
+        addNode(edge.getOne());
+        addNode(edge.getTwo());
     }
 
     private void addNode(Node node) {
@@ -39,5 +40,9 @@ public class Graph {
 
     public List<Node> getNodes() {
         return nodes;
+    }
+
+    public boolean connectionExistsBetween(Node one, Node two) {
+        return edges.contains(new Edge(one, two));
     }
 }

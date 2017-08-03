@@ -1,15 +1,23 @@
-package vol1;
+package vol1.graph;
 
 /**
  * Created by mcaci on 8/2/17.
  */
 public class Pair<T> {
-    T one;
-    T two;
+    private final T one;
+    private final T two;
 
-    public Pair(T source, T destination) {
+    Pair(T source, T destination) {
         this.one = source;
         this.two = destination;
+    }
+
+    public T getOne() {
+        return one;
+    }
+
+    public T getTwo() {
+        return two;
     }
 
     @Override
