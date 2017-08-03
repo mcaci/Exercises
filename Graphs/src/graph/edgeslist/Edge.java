@@ -1,31 +1,31 @@
-package graph;
+package graph.edgeslist;
 
 /**
  * Created by mcaci on 8/2/17.
  */
-public class Edge {
+public class Edge<T> {
 
-    private final Node one;
-    private final Node two;
+    private final Node<T> one;
+    private final Node<T> two;
 
-    public Edge(Node one, Node two) {
+    public Edge(Node<T> one, Node<T> two) {
         this.one = one;
         this.two = two;
     }
 
-    public Edge(int source, int destination) {
-        this(new Node(source), new Node(destination));
+    public Edge(T one, T two) {
+        this(new Node<>(one), new Node<>(two));
     }
 
-    public Edge reverse() {
-        return new Edge(getTwo(), getOne());
+    public Edge<T> reverse() {
+        return new Edge<>(getTwo(), getOne());
     }
 
-    public Node getOne() {
+    public Node<T> getOne() {
         return one;
     }
 
-    public Node getTwo() {
+    public Node<T> getTwo() {
         return two;
     }
 

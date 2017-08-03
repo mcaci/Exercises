@@ -1,4 +1,7 @@
-package graph;
+package graph.adjacencylist;
+
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by mcaci on 8/2/17.
@@ -6,9 +9,11 @@ package graph;
 public class Node<T> {
 
     private final T t;
+    private final List<Node<T>> adjacentNodes;
 
     public Node(T t) {
         this.t = t;
+        adjacentNodes = new LinkedList<>();
     }
 
     @Override
@@ -24,5 +29,9 @@ public class Node<T> {
     @Override
     public int hashCode() {
         return t != null ? t.hashCode() : 0;
+    }
+
+    public List<Node<T>> getAdjacentNodes() {
+        return adjacentNodes;
     }
 }

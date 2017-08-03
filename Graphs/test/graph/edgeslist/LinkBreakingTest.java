@@ -1,4 +1,4 @@
-package graph;
+package graph.edgeslist;
 
 import org.junit.After;
 import org.junit.Before;
@@ -11,12 +11,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class LinkBreakingTest {
 
-    private Graph g;
+    private Graph<Integer> g;
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph();
-        g.add(new Edge(1, 2));
+        g = new Graph<>();
+        g.add(1, 2);
     }
 
     @After
@@ -25,15 +25,15 @@ public class LinkBreakingTest {
     }
 
     @Test
-    // NOTE: will not work if Pair and Node do not have equals and hashcode implemented
+    // NOTE: will not work if Node does not have equals and hashcode implemented
     public void testBreakExistingLink() {
-        g.removeEdge(new Edge(1, 2));
+        g.removeEdge(new Edge<>(1, 2));
         assertTrue(g.getEdges().isEmpty());
     }
 
     @Test
     public void testBreakNonExistingLink() {
-        g.removeEdge(new Edge(1, 0));
+        g.removeEdge(new Edge<>(1, 0));
         assertTrue(g.getEdges().size() == 1);
     }
 }

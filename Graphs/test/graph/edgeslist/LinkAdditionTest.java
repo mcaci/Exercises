@@ -1,9 +1,10 @@
-package graph;
+package graph.edgeslist;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -11,14 +12,14 @@ import static org.junit.Assert.assertTrue;
  */
 public class LinkAdditionTest {
 
-    private Graph g;
-    private Edge edge;
+    private Graph<Integer> g;
+    private Edge<Integer> edge;
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph();
-        edge = new Edge(1, 2);
-        g.add(edge);
+        g = new Graph<>();
+        edge = new Edge<>(1, 2);
+        g.add(1, 2);
     }
 
     @After
@@ -34,16 +35,16 @@ public class LinkAdditionTest {
 
     @Test
     public void testNode1To2Connection() {
-        Node one = edge.getOne();
-        Node two = edge.getTwo();
+        Node<Integer> one = edge.getOne();
+        Node<Integer> two = edge.getTwo();
         assertTrue(g.connectionExistsBetween(one, two));
     }
 
     @Test
     public void testNode2To1Connection() {
-        Node one = edge.getOne();
-        Node two = edge.getTwo();
-        assertTrue(g.connectionExistsBetween(two, one));
+        Node<Integer> one = edge.getOne();
+        Node<Integer> two = edge.getTwo();
+        assertFalse(g.connectionExistsBetween(two, one));
     }
 
     @Test
