@@ -6,9 +6,11 @@ package vol1.graph;
 public class Node {
 
     private final int id;
+    private boolean gateway;
 
     public Node(int id) {
         this.id = id;
+        this.gateway = false;
     }
 
     @Override
@@ -24,5 +26,13 @@ public class Node {
     @Override
     public int hashCode() {
         return id;
+    }
+
+    public boolean isGateway() {
+        return gateway;
+    }
+
+    public void setGateway(boolean gateway) {
+        this.gateway = gateway;
     }
 }

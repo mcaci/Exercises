@@ -38,4 +38,8 @@ public class Player {
             System.out.println("2 1");
         }
     }
+
+    public void createGraph() {
+
+    }
 }
