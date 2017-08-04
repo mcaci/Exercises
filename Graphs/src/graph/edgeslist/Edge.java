@@ -1,5 +1,7 @@
 package graph.edgeslist;
 
+import graph.Node;
+
 /**
  * Created by mcaci on 8/2/17.
  */
@@ -15,10 +17,6 @@ public class Edge<T> {
 
     public Edge(T one, T two) {
         this(new Node<>(one), new Node<>(two));
-    }
-
-    public Edge<T> reverse() {
-        return new Edge<>(getTwo(), getOne());
     }
 
     public Node<T> getOne() {

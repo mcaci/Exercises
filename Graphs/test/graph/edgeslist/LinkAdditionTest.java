@@ -7,6 +7,8 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import graph.Node;
+
 /**
  * Created by mcaci on 8/2/17.
  */

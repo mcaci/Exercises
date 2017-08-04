@@ -12,14 +12,14 @@ import static org.junit.Assert.assertTrue;
 public class LinkBreakingTest {
 
     private Graph<Integer> g;
-    private Node<Integer> source;
-    private Node<Integer> destination;
+    private AdjacencyListNode<Integer> source;
+    private AdjacencyListNode<Integer> destination;
 
     @Before
     public void setUp() throws Exception {
         g = new Graph<>();
-        source = new Node<>(1);
-        destination = new Node<>(2);
+        source = new AdjacencyListNode<>(1);
+        destination = new AdjacencyListNode<>(2);
         g.add(source, destination);
     }
     @After
@@ -36,7 +36,7 @@ public class LinkBreakingTest {
 
     @Test
     public void testBreakNonExistingLink() {
-        g.removeEdge(source, new Node<>(0));
+        g.removeEdge(source, new AdjacencyListNode<>(0));
         assertTrue(source.getAdjacentNodes().size() == 1);
     }
 }

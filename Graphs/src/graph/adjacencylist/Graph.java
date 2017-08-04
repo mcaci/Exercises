@@ -1,5 +1,7 @@
 package graph.adjacencylist;
 
+import graph.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -14,27 +16,29 @@ public class Graph<T> {
         nodes = new LinkedList<>();
     }
 
-    private void add(Node<T> node) {
+    public void add(AdjacencyListNode<T> node) {
         if (!nodes.contains(node)) {
             nodes.add(node);
         }
     }
 
-    public void add(Node<T> source, Node<T> destination, boolean isBidirectional) {
+    public void add(AdjacencyListNode<T> source, AdjacencyListNode<T> destination, boolean isBidirectional) {
         add(source);
         add(destination);
-        source.getAdjacentNodes().add(destination);
+        AdjacencyListNode<T> sourceNode = (AdjacencyListNode<T>)this.getNode(source.getContent());
+        AdjacencyListNode<T> destinationNode = (AdjacencyListNode<T>)this.getNode(destination.getContent());
+        sourceNode.getAdjacentNodes().add(destinationNode);
         if(isBidirectional){
-            destination.getAdjacentNodes().add(source);
+            destinationNode.getAdjacentNodes().add(sourceNode);
         }
     }
 
-    public void add(Node<T> source, Node<T> destination) {
+    public void add(AdjacencyListNode<T> source, AdjacencyListNode<T> destination) {
         add(source,destination,false);
     }
 
 
-    public void removeEdge(Node<T> source, Node<T> destination) {
+    public void removeEdge(AdjacencyListNode<T> source, AdjacencyListNode<T> destination) {
         source.getAdjacentNodes().removeIf(e -> e.equals(destination));
     }
 
@@ -42,7 +46,18 @@ public class Graph<T> {
         return nodes;
     }
 
-    public boolean connectionExistsBetween(Node<T> source, Node<T> destination) {
+    public boolean connectionExistsBetween(AdjacencyListNode<T> source, AdjacencyListNode<T> destination) {
         return source.getAdjacentNodes().contains(destination);
+    }
+
+    public Node<T> getNode(T content) {
+        Node<T> nodeWithOne = null;
+        for (Node<T> node : this.getNodes()) {
+            if (node.getContent().equals(content)) {
+                nodeWithOne = node;
+                break;
+            }
+        }
+        return nodeWithOne;
     }
 }

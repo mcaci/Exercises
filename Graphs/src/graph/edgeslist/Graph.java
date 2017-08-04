@@ -3,6 +3,8 @@ package graph.edgeslist;
 import java.util.LinkedList;
 import java.util.List;
 
+import graph.Node;
+
 /**
  * Created by mcaci on 8/2/17.
  */

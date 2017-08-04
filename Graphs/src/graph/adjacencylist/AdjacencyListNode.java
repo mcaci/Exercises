@@ -1,18 +1,19 @@
 package graph.adjacencylist;
 
+import graph.Node;
+
 import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by mcaci on 8/2/17.
+ * Created by mcaci on 8/4/17.
  */
-public class Node<T> {
+public class AdjacencyListNode<T> extends Node<T> {
 
-    private final T t;
     private final List<Node<T>> adjacentNodes;
 
-    public Node(T t) {
-        this.t = t;
+    public AdjacencyListNode(T t) {
+        super(t);
         adjacentNodes = new LinkedList<>();
     }
 
@@ -20,15 +21,14 @@ public class Node<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        Node<?> node = (Node<?>) o;
-
-        return t != null ? t.equals(node.t) : node.t == null;
+        return super.equals(o);
     }
 
     @Override
     public int hashCode() {
-        return t != null ? t.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (adjacentNodes != null ? adjacentNodes.hashCode() : 0);
+        return result;
     }
 
     public List<Node<T>> getAdjacentNodes() {
