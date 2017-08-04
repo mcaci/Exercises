@@ -20,7 +20,7 @@ public class LinkAdditionTest {
     public void setUp() throws Exception {
         g = new EGraph<>();
         edge = new Edge<>(1, 2);
-        g.add(1, 2);
+        g.addEdge(1, 2);
     }
 
     @After
@@ -38,14 +38,14 @@ public class LinkAdditionTest {
     public void testNode1To2Connection() {
         Node<Integer> one = edge.getOne();
         Node<Integer> two = edge.getTwo();
-        assertTrue(g.connectionExistsBetween(one, two));
+        assertTrue(g.connectionExists(one, two));
     }
 
     @Test
     public void testNode2To1Connection() {
         Node<Integer> one = edge.getOne();
         Node<Integer> two = edge.getTwo();
-        assertFalse(g.connectionExistsBetween(two, one));
+        assertFalse(g.connectionExists(two, one));
     }
 
     @Test

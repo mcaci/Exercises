@@ -1,5 +1,6 @@
 package graph.edgeslist;
 
+import graph.Node;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,7 @@ public class LinkBreakingTest {
     @Before
     public void setUp() throws Exception {
         g = new EGraph<>();
-        g.add(1, 2);
+        g.addEdge(1, 2);
     }
 
     @After
@@ -27,13 +28,17 @@ public class LinkBreakingTest {
     @Test
     // NOTE: will not work if Node does not have equals and hashcode implemented
     public void testBreakExistingLink() {
-        g.removeEdge(new Edge<>(1, 2));
+        Node<Integer> source = g.getNode(1);
+        Node<Integer> destination = g.getNode(2);
+        g.removeEdge(source, destination);
         assertTrue(g.getEdges().isEmpty());
     }
 
     @Test
     public void testBreakNonExistingLink() {
-        g.removeEdge(new Edge<>(1, 0));
+        Node<Integer> source = g.getNode(1);
+        Node<Integer> destination = g.getNode(0);
+        g.removeEdge(source, destination);
         assertTrue(g.getEdges().size() == 1);
     }
 }

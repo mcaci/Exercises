@@ -49,20 +49,14 @@ public class EGraph<T> implements Graph<T> {
         return edges.contains(edge);
     }
 
+    @Override
     public List<Edge<T>> getEdges() {
         return edges;
     }
 
+    @Override
     public List<Node<T>> getNodes() {
         return nodes;
-    }
-
-    public void removeEdge(Edge<T> edge) {
-        edges.removeIf(e -> e.equals(edge));
-    }
-
-    private void add(T nodeContent) {
-        add(new Node<>(nodeContent));
     }
 
     private void add(Node<T> node) {
@@ -71,32 +65,4 @@ public class EGraph<T> implements Graph<T> {
         }
     }
 
-    public void add(Node<T> source, Node<T> destination) {
-        add(source,destination,false);
-    }
-
-    public void add(Node<T> source, Node<T> destination, boolean isBidirectional) {
-        add(source);
-        add(destination);
-        edges.add(new Edge<>(source, destination));
-        if(isBidirectional){
-            edges.add(new Edge<>(destination, source));
-        }
-    }
-
-    public void add(T sourceNodeContent, T destinationNodeContent) {
-        add(sourceNodeContent,destinationNodeContent,false);
-    }
-
-    public void add(T sourceNodeContent, T destinationNodeContent, boolean isBidirectional) {
-        Node<T> source = new Node<>(sourceNodeContent);
-        Node<T> destination = new Node<>(destinationNodeContent);
-        add(source, destination, isBidirectional);
-    }
-
-
-
-    public boolean connectionExistsBetween(Node<T> one, Node<T> two) {
-        return edges.contains(new Edge<>(one, two));
-    }
 }
