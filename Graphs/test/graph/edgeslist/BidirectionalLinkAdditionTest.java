@@ -1,12 +1,12 @@
 package graph.edgeslist;
 
+import graph.Graph;
+import graph.Node;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
-
-import graph.Node;
 
 /**
  * Created by mcaci on 8/2/17.
@@ -19,10 +19,11 @@ public class BidirectionalLinkAdditionTest {
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph<>();
+        g = new EGraph<>();
         source = new Node<>(1);
         destination = new Node<>(2);
-        g.add(source, destination, true);
+        g.addEdge(1, 2);
+        g.addEdge(2, 1);
     }
 
     @After
@@ -37,12 +38,12 @@ public class BidirectionalLinkAdditionTest {
 
     @Test
     public void testNode1To2Connection() {
-        assertTrue(g.connectionExistsBetween(source, destination));
+        assertTrue(g.connectionExists(source, destination));
     }
 
     @Test
     public void testNode2To1Connection() {
-        assertTrue(g.connectionExistsBetween(destination, source));
+        assertTrue(g.connectionExists(destination, source));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package graph.adjacencylist;
 
+import graph.Node;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,16 +12,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class LinkBreakingTest {
 
-    private Graph<Integer> g;
-    private AdjacencyListNode<Integer> source;
-    private AdjacencyListNode<Integer> destination;
+    private AGraph<Integer> g;
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph<>();
-        source = new AdjacencyListNode<>(1);
-        destination = new AdjacencyListNode<>(2);
-        g.add(source, destination);
+        g = new AGraph<>();
+        g.addEdge(1,2);
     }
     @After
     public void tearDown() throws Exception {
@@ -30,12 +27,15 @@ public class LinkBreakingTest {
     @Test
     // NOTE: will not work if Node does not have equals and hashcode implemented
     public void testBreakExistingLink() {
+        AdjacencyListNode<Integer> source = (AdjacencyListNode<Integer>) g.getNode(1);
+        Node<Integer> destination = g.getNode(2);
         g.removeEdge(source, destination);
         assertTrue(source.getAdjacentNodes().isEmpty());
     }
 
     @Test
     public void testBreakNonExistingLink() {
+        AdjacencyListNode<Integer> source = (AdjacencyListNode<Integer>) g.getNode(1);
         g.removeEdge(source, new AdjacencyListNode<>(0));
         assertTrue(source.getAdjacentNodes().size() == 1);
     }

@@ -1,5 +1,6 @@
 package graph.adjacencylist;
 
+import graph.Graph;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +19,10 @@ public class LinkAdditionTest {
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph<>();
-        source = new AdjacencyListNode<>(1);
-        destination = new AdjacencyListNode<>(2);
-        g.add(source, destination);
+        g = new AGraph<>();
+        g.addEdge(1, 2);
+        source = (AdjacencyListNode<Integer>) g.getNode(1);
+        destination = (AdjacencyListNode<Integer>) g.getNode(2);
     }
 
     @After
@@ -36,12 +37,12 @@ public class LinkAdditionTest {
 
     @Test
     public void testNode1To2Connection() {
-        assertTrue(g.connectionExistsBetween(source, destination));
+        assertTrue(g.connectionExists(source, destination));
     }
 
     @Test
     public void testNode2To1Connection() {
-        assertFalse(g.connectionExistsBetween(destination, source));
+        assertFalse(g.connectionExists(destination, source));
     }
 
     @Test
@@ -56,13 +57,13 @@ public class LinkAdditionTest {
 
     @Test
     public void testNoDuplicateWillBeAdded() {
-        g.add(new AdjacencyListNode<>(new Integer(1))); // adding same node as in setup
+        g.addNode(1); // adding same node as in setup
         assertTrue(g.getNodes().size() == 2);
     }
 
     @Test
     public void testEdgeIsAddedWhenAddingADuplicateNode() {
-        g.add(new AdjacencyListNode<>(1), new AdjacencyListNode<>(5)); // adding same source as in setup
+        g.addEdge(1, 5); // adding same source as in setup
         int numberOfEdgesAdjacentToNode1 = ((AdjacencyListNode<Integer>)g.getNode(1)).getAdjacentNodes().size();
         assertTrue("actual size of the edges is " + numberOfEdgesAdjacentToNode1, numberOfEdgesAdjacentToNode1 == 2);
     }

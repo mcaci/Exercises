@@ -1,5 +1,6 @@
 package graph.edgeslist;
 
+import graph.Node;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,19 +8,17 @@ import org.junit.Test;
 import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import graph.Node;
-
 /**
  * Created by mcaci on 8/2/17.
  */
 public class LinkAdditionTest {
 
-    private Graph<Integer> g;
+    private EGraph<Integer> g;
     private Edge<Integer> edge;
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph<>();
+        g = new EGraph<>();
         edge = new Edge<>(1, 2);
         g.add(1, 2);
     }

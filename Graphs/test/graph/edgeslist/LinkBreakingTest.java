@@ -6,18 +6,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
 
-import graph.Node;
-
 /**
  * Created by mcaci on 8/2/17.
  */
 public class LinkBreakingTest {
 
-    private Graph<Integer> g;
+    private EGraph<Integer> g;
 
     @Before
     public void setUp() throws Exception {
-        g = new Graph<>();
+        g = new EGraph<>();
         g.add(1, 2);
     }
 
