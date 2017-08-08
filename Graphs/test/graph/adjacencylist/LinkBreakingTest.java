@@ -12,11 +12,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class LinkBreakingTest {
 
-    private AGraph<Integer> g;
+    private AdjacencyListGraph<Integer> g;
 
     @Before
     public void setUp() throws Exception {
-        g = new AGraph<>();
+        g = new AdjacencyListGraph<>();
         g.addEdge(1,2);
     }
     @After

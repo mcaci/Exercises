@@ -19,7 +19,7 @@ public class LinkAdditionTest {
 
     @Before
     public void setUp() throws Exception {
-        g = new AGraph<>();
+        g = new AdjacencyListGraph<>();
         g.addEdge(1, 2);
         source = (AdjacencyListNode<Integer>) g.getNode(1);
         destination = (AdjacencyListNode<Integer>) g.getNode(2);

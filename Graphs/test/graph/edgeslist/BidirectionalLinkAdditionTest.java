@@ -1,5 +1,6 @@
 package graph.edgeslist;
 
+import graph.Edge;
 import graph.Graph;
 import graph.Node;
 import org.junit.After;
@@ -19,7 +20,7 @@ public class BidirectionalLinkAdditionTest {
 
     @Before
     public void setUp() throws Exception {
-        g = new EGraph<>();
+        g = new EdgesListGraph<>();
         source = new Node<>(1);
         destination = new Node<>(2);
         g.addEdge(1, 2);

@@ -1,6 +1,4 @@
-package graph.edgeslist;
-
-import graph.Node;
+package graph;
 
 /**
  * Created by mcaci on 8/2/17.

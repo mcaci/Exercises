@@ -18,7 +18,7 @@ public class BidirectionalLinkAdditionTest {
 
     @Before
     public void setUp() throws Exception {
-        g = new AGraph<>();
+        g = new AdjacencyListGraph<>();
         g.addEdge(1, 2);
         g.addEdge(2, 1);
         source = (AdjacencyListNode<Integer>) g.getNode(1);
