@@ -4,32 +4,34 @@ package conway;
  * Created by mcaci on 9/5/17.
  */
 public class ConwaySequenceCalculator {
-    public String compute(String sequence, int level) {
 
-        if("12".equals(sequence)) {
-            StringBuilder conwaySequenceBuilder = new StringBuilder();
-
-            char[] sequenceChars = sequence.toCharArray();
-
-
-
-            String sequence1 = buildSequenceOfSingleDigit(sequenceChars[0]);
-            conwaySequenceBuilder.append(computeConwayOfSequencesOfOneSingleDigit(sequence1));
-            String sequence2 = buildSequenceOfSingleDigit(sequenceChars[1]);
-            conwaySequenceBuilder.append(computeConwayOfSequencesOfOneSingleDigit(sequence2));
-            return conwaySequenceBuilder.toString();
+    public String conway(String sequence, int level) {
+        for (int i = 1; i < level; i++) {
+            sequence = conwayIteration(sequence);
         }
-
-        else {
-            return computeConwayOfSequencesOfOneSingleDigit(sequence);
-        }
+        return sequence;
     }
 
-    protected String buildSequenceOfSingleDigit(char sequenceChar) {
-        return Character.toString(sequenceChar);
+    private String conwayIteration(String sequence) {
+        StringBuilder conwaySequenceBuilder = new StringBuilder();
+        DigitSequenceBuilder digitSequenceBuilder = new DigitSequenceBuilder(sequence);
+        for (char sequenceDigit : sequence.toCharArray()) {
+            if(sequenceDigit != digitSequenceBuilder.getCurrentDigit()) {
+                computeAndAppend(conwaySequenceBuilder, digitSequenceBuilder.getSequence());
+                digitSequenceBuilder.reset(sequenceDigit);
+            }
+            digitSequenceBuilder.append(sequenceDigit);
+        }
+        computeAndAppend(conwaySequenceBuilder, digitSequenceBuilder.getSequence());
+        return conwaySequenceBuilder.toString();
     }
 
-    private String computeConwayOfSequencesOfOneSingleDigit(String sequence) {
+    private void computeAndAppend(StringBuilder conwaySequenceBuilder, String sequenceOfSingleDigits) {
+        String conwaySequencePart = computeConwayOnSequencesOfOneSingleDigit(sequenceOfSingleDigits);
+        conwaySequenceBuilder.append(conwaySequencePart);
+    }
+
+    private String computeConwayOnSequencesOfOneSingleDigit(String sequence) {
         StringBuilder conwaySequenceBuilder = new StringBuilder();
         conwaySequenceBuilder.append(sequence.length());
         conwaySequenceBuilder.append(sequence.charAt(0));
