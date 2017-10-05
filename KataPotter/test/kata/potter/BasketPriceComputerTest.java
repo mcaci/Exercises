@@ -9,63 +9,41 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasketPriceComputerTest
 {
-
-  Basket basket = new Basket();
-  BasketPriceComputer basketPriceComputer = new BasketPriceComputer();
+  private BasketBuilder basketBuilder = new BasketBuilder();
 
   @Test
   public void testPriceOfEmptyBasket() {
-    testPriceComputed(0F);
+    testPriceComputed(this.basketBuilder.build(0, 0, 0, 0, 0), 0F);
   }
 
   @Test
   public void testWithOneBook() {
-    addBooksToBasket(1, 0, 0, 0, 0);
-    testPriceComputed(8F);
+    testPriceComputed(this.basketBuilder.build(1, 0, 0, 0, 0), 8F);
   }
 
   @Test
   public void testTwoSameBooks() {
-    addBooksToBasket(2, 0, 0, 0, 0);
-    testPriceComputed(16F);
-  }
-
-  @Test
-  public void testTwoDifferentBooks() {
-    addBooksToBasket(1, 1, 0, 0, 0);
-    testPriceComputed(16F * 0.95);
-  }
-
-  @Test
-  public void testThreeDifferentBooks() {
-    addBooksToBasket(1, 1, 1, 0, 0);
-    testPriceComputed(24F * 0.9);
+    testPriceComputed(this.basketBuilder.build(2, 0, 0, 0, 0), 16F);
   }
 
   @Test
   public void testThreeSameBooks() {
-    addBooksToBasket(3, 0, 0, 0, 0);
-    testPriceComputed(24F);
+    testPriceComputed(this.basketBuilder.build(3, 0, 0, 0, 0), 24F);
   }
 
-  private void addBooksToBasket(int quantityOfBook1, int quantityOfBook2, int quantityOfBook3, int quantityOfBook4,
-      int quantityOfBook5) {
-    addBooksToBasket(1, quantityOfBook1);
-    addBooksToBasket(2, quantityOfBook2);
-    addBooksToBasket(3, quantityOfBook3);
-    addBooksToBasket(4, quantityOfBook4);
-    addBooksToBasket(5, quantityOfBook5);
+  @Test
+  public void testTwoDifferentBooks() {
+    testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16F * 0.95);
   }
 
-  private void addBooksToBasket(int bookId, int bookQuantity) {
-    for (int i = 0; i < bookQuantity; i++) {
-      basket.add(bookId);
-    }
+  @Test
+  public void testThreeDifferentBooks() {
+    testPriceComputed(this.basketBuilder.build(1, 1, 1, 0, 0), 24F * 0.9);
   }
 
-  private void testPriceComputed(double expectedPrice) {
+  private void testPriceComputed(Basket basket, double expectedPrice) {
+    BasketPriceComputer basketPriceComputer = new BasketPriceComputer();
     double price = basketPriceComputer.calculatePrice(basket);
     assertEquals(expectedPrice, price, 0.1F);
   }
-
 }

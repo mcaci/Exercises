@@ -2,6 +2,7 @@ package kata.potter;
 
 public class Basket {
 
+
   int[] books = new int[5];
 
   public void add(int num) {
