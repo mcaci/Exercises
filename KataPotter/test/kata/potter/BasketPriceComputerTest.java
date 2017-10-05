@@ -36,6 +36,11 @@ public class BasketPriceComputerTest
     testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16F * 0.95);
   }
 
+  @Test
+  public void testOneBundleOfFiveBooks() {
+    testPriceComputed(this.basketBuilder.build(1, 1, 1, 1, 1), 40F * 0.75);
+  }
+
   private void testPriceComputed(Basket basket, double expectedPrice) {
     BasketPriceComputer basketPriceComputer = new BasketPriceComputer();
     double price = basketPriceComputer.calculateBasketPrice(basket);
