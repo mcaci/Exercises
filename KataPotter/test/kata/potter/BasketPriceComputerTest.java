@@ -13,42 +13,48 @@ public class BasketPriceComputerTest
 
   @Test
   public void testPriceOfEmptyBasket() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 0, 0, 0), 0F);
+    testPriceComputed(this.basketBuilder.build(0, 0, 0, 0, 0), 0);
   }
 
   @Test
   public void testWithOneBook() {
-    testPriceComputed(this.basketBuilder.build(1, 0, 0, 0, 0), 8F);
+    testPriceComputed(this.basketBuilder.build(1, 0, 0, 0, 0), 8);
   }
 
   @Test
   public void testTwoSameBooks() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 2, 0, 0), 16F);
+    testPriceComputed(this.basketBuilder.build(0, 0, 2, 0, 0), 16);
   }
 
   @Test
   public void testFiveSameBooks() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 0, 5, 0), 40F);
+    testPriceComputed(this.basketBuilder.build(0, 0, 0, 5, 0), 40);
   }
 
   @Test
   public void testOneBundleOfTwoBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16F * 0.95);
+    testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16 * 0.95);
   }
 
   @Test
   public void testOneBundleOfFiveBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 1, 1, 1), 40F * 0.75);
+    testPriceComputed(this.basketBuilder.build(1, 1, 1, 1, 1), 40 * 0.75);
   }
 
   @Test
   public void testTwoBundlesOfOneAndFiveBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 1, 2, 1), 40F * 0.75 + 8);
+      testPriceComputed(this.basketBuilder.build(1, 1, 1, 2, 1), 40 * 0.75 + 8);
+  }
+
+  @Test
+  public void testTwoBundlesOfThreeAndFiveBooks() {
+//      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 2 * 32 * 0.8); // Basket 4-4 < Basket 5-3
+      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 40 * 0.75 + 24 * 0.9);
   }
 
   private void testPriceComputed(Basket basket, double expectedPrice) {
     BasketPriceComputer basketPriceComputer = new BasketPriceComputer();
     double price = basketPriceComputer.calculateBasketPrice(basket);
-    assertEquals(expectedPrice, price, 0.1F);
+    assertEquals(expectedPrice, price, 0.1);
   }
 }
