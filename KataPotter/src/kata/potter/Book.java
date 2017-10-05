@@ -1,13 +1,35 @@
 package kata.potter;
 
-public class Book {
-    private final int id;
+import java.util.Objects;
 
-    public Book(int id) {
-        this.id = id;
+public class Book {
+    private final int bookNumber;
+
+    public Book(int bookNumber) {
+        this.bookNumber = bookNumber;
     }
 
-    public int getId() {
-        return id;
+    public int getBookNumber() {
+        return bookNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return bookNumber == book.bookNumber;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bookNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "bookNumber=" + bookNumber +
+                '}';
     }
 }

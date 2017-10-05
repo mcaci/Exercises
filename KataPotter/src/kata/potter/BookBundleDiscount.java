@@ -9,7 +9,7 @@ public enum BookBundleDiscount {
     this.discount = discount;
   }
 
-  public double getDiscount() {
-    return discount;
+  public static double getDiscount(int quantity) {
+    return values()[quantity - 1].discount;
   }
 }

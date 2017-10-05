@@ -1,6 +1,5 @@
 package kata.potter;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -32,21 +31,14 @@ public class BasketPriceComputerTest
     testPriceComputed(this.basketBuilder.build(0, 0, 0, 5, 0), 40F);
   }
 
-  @Ignore
   @Test
-  public void testTwoDifferentBooks() {
+  public void testOneBundleOfTwoBooks() {
     testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16F * 0.95);
-  }
-
-  @Ignore
-  @Test
-  public void testThreeDifferentBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 1, 0, 0), 24F * 0.9);
   }
 
   private void testPriceComputed(Basket basket, double expectedPrice) {
     BasketPriceComputer basketPriceComputer = new BasketPriceComputer();
-    double price = basketPriceComputer.calculatePrice(basket);
+    double price = basketPriceComputer.calculateBasketPrice(basket);
     assertEquals(expectedPrice, price, 0.1F);
   }
 }
