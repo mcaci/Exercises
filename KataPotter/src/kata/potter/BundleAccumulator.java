@@ -6,42 +6,40 @@ import java.util.function.Predicate;
 
 public class BundleAccumulator {
 
-    public void bundleAccumulator(List<BookBundle> bookBundles, BookBundle bundle) {
-        Optional<BookBundle> availableBundle = getBookBundleWhereToAddBooks(bookBundles, bundle);
+    public void addBundle(List<BookBundle> bookBundles, BookBundle bundleToAdd) {
+        final BundleChooser bundleChooser = new BundleChooser(bundleToAdd);
+        Optional<BookBundle> availableBundle = bundleChooser.getBookBundleWhereToAddBooks(bookBundles);
         if (availableBundle.isPresent()) {
-            availableBundle.get().addAllBooksIn(bundle);
+            availableBundle.get().addAllBooksIn(bundleToAdd);
         } else {
-            bookBundles.add(bundle);
+            bookBundles.add(bundleToAdd);
         }
     }
 
-    private Optional<BookBundle> getBookBundleWhereToAddBooks(List<BookBundle> bookBundles, BookBundle bundle) {
-        int bundleSize = bundle.size();
+    private class BundleChooser {
 
-        Optional<BookBundle> result = Optional.empty();
-        for (BundleValueOrder bundleValueOrder : BundleValueOrder.values()) {
-            int targetSize = bundleValueOrder.getBundleSize();
-            Predicate<BookBundle> onPresence = currentBundle -> currentBundle.contains(bundle);
-            Predicate<BookBundle> onSize = bookBundle -> bookBundle.size() + bundleSize == targetSize;
-            result = bookBundles.stream().filter(onPresence.negate().and(onSize)).findFirst();
-            if (result.isPresent()) {
-                break;
+        private int bundleToAddSize;
+        private Predicate<BookBundle> bookBundlePresencePredicate;
+
+        public BundleChooser(BookBundle toAdd) {
+            this.bundleToAddSize = toAdd.size();
+            this.bookBundlePresencePredicate = bundle -> bundle.contains(toAdd);
+        }
+
+        public Optional<BookBundle> getBookBundleWhereToAddBooks(List<BookBundle> bookBundles) {
+            Optional<BookBundle> bundleWhereToAddBooks = Optional.empty();
+
+            for (BundleValueOrder bundleValueOrder : BundleValueOrder.values()) {
+                Predicate<BookBundle> onSize = getBookBundlePredicate(bundleValueOrder);
+                bundleWhereToAddBooks = bookBundles.stream().filter(this.bookBundlePresencePredicate.negate().and(onSize)).findFirst();
+                if (bundleWhereToAddBooks.isPresent()) { break; }
             }
-        }
-        return result;
-    }
-
-    public enum BundleValueOrder {
-        BUNDLE_OF_4(4), BUNDLE_OF_5(5), BUNDLE_OF_3(3), BUNDLE_OF_2(2);
-
-        private final int bundleSize;
-
-        BundleValueOrder(int bundleSize) {
-            this.bundleSize = bundleSize;
+            return bundleWhereToAddBooks;
         }
 
-        public int getBundleSize() {
-            return bundleSize;
+        private Predicate<BookBundle> getBookBundlePredicate(BundleValueOrder bundleValueOrder) {
+            return bookBundle -> bookBundle.size() + this.bundleToAddSize == bundleValueOrder.getBundleSize();
         }
     }
+
 }

@@ -1,31 +1,16 @@
 package kata.potter;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.ToDoubleFunction;
 
-public class Book {
-    private final int bookNumber;
+public class BasketPriceComputer {
 
-    public Book(int bookNumber) {
-        this.bookNumber = bookNumber;
-    }
+    private static final double PRICE_PER_UNIT = 8;
+    private static final ToDoubleFunction<BookBundle> BUNDLE_PRICE_FUNCTION = bundle -> PRICE_PER_UNIT * bundle.size() * bundle.getDiscount();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return bookNumber == book.bookNumber;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(bookNumber);
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "bookNumber=" + bookNumber +
-                '}';
-    }
-}
+    public double calculateBasketPrice(Basket basket) {
+        BundleAccumulator accumulator = new BundleAccumulator();
+        List<BookBundle> bundles = basket.stream().map(BookBundle::new).
+                collect(ArrayList::new, accumulator::addBundle, ArrayList::addAll);
+        return bund
