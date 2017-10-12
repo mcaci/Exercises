@@ -48,8 +48,8 @@ public class BasketPriceComputerTest
 
   @Test
   public void testTwoBundlesOfThreeAndFiveBooks() {
-//      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 2 * 32 * 0.8); // Basket 4-4 < Basket 5-3
-      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 40 * 0.75 + 24 * 0.9);
+      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 2 * 32 * 0.8); // Basket 4-4 < Basket 5-3
+//      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 40 * 0.75 + 24 * 0.9);
   }
 
   private void testPriceComputed(Basket basket, double expectedPrice) {
