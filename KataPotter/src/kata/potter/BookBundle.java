@@ -1,24 +1,14 @@
 package kata.potter;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Objects;
 
 public class BookBundle {
 
-    private final List<Book> bundle = new ArrayList<>();
-
-    public BookBundle() {}
+    private final Collection<Book> bundle = new ArrayList<>();
 
     public BookBundle(Book book) {
-        this.getBundle().add(book);
-    }
-
-    public List<Book> getBundle() {
-        return bundle;
-    }
-
-    public void add(Book book) {
         this.getBundle().add(book);
     }
 
@@ -27,12 +17,7 @@ public class BookBundle {
     }
 
     public boolean contains(BookBundle otherBundle) {
-        boolean otherBundleIsContained = false;
-        for (Book book : this.bundle) {
-            otherBundleIsContained = otherBundle.getBundle().contains(book);
-            if(otherBundleIsContained) {break;}
-        }
-        return otherBundleIsContained;
+        return this.getBundle().stream().anyMatch(book -> otherBundle.getBundle().contains(book));
     }
 
     public int size() {
@@ -41,6 +26,10 @@ public class BookBundle {
 
     public double getDiscount() {
         return BookBundleDiscount.getDiscount(size());
+    }
+
+    private Collection<Book> getBundle() {
+        return bundle;
     }
 
     @Override

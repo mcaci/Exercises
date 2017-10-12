@@ -9,48 +9,53 @@ import static org.junit.Assert.assertEquals;
  */
 public class BasketPriceComputerTest
 {
-  private BasketBuilder basketBuilder = new BasketBuilder();
+  private BasketCreator basketBuilder = new BasketCreator();
 
   @Test
   public void testPriceOfEmptyBasket() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 0, 0, 0), 0);
+    testPriceComputed(this.basketBuilder.create(0, 0, 0, 0, 0), 0);
   }
 
   @Test
   public void testWithOneBook() {
-    testPriceComputed(this.basketBuilder.build(1, 0, 0, 0, 0), 8);
+    testPriceComputed(this.basketBuilder.create(1, 0, 0, 0, 0), 8);
   }
 
   @Test
   public void testTwoSameBooks() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 2, 0, 0), 16);
+    testPriceComputed(this.basketBuilder.create(0, 0, 2, 0, 0), 16);
   }
 
   @Test
   public void testFiveSameBooks() {
-    testPriceComputed(this.basketBuilder.build(0, 0, 0, 5, 0), 40);
+    testPriceComputed(this.basketBuilder.create(0, 0, 0, 5, 0), 40);
   }
 
   @Test
   public void testOneBundleOfTwoBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 0, 0, 0), 16 * 0.95);
+    testPriceComputed(this.basketBuilder.create(1, 1, 0, 0, 0), 16 * 0.95);
   }
 
   @Test
   public void testOneBundleOfFiveBooks() {
-    testPriceComputed(this.basketBuilder.build(1, 1, 1, 1, 1), 40 * 0.75);
+    testPriceComputed(this.basketBuilder.create(1, 1, 1, 1, 1), 40 * 0.75);
   }
 
   @Test
   public void testTwoBundlesOfOneAndFiveBooks() {
-      testPriceComputed(this.basketBuilder.build(1, 1, 1, 2, 1), 40 * 0.75 + 8);
+      testPriceComputed(this.basketBuilder.create(1, 1, 1, 2, 1), 40 * 0.75 + 8);
   }
 
   @Test
   public void testTwoBundlesOfThreeAndFiveBooks() {
-      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 2 * 32 * 0.8); // Basket 4-4 < Basket 5-3
-//      testPriceComputed(this.basketBuilder.build(1, 2, 2, 2, 1), 40 * 0.75 + 24 * 0.9);
+      testPriceComputed(this.basketBuilder.create(1, 2, 2, 2, 1), 2 * 32 * 0.8);
   }
+
+  @Test
+  public void testThreeFullBundlesAndTwoBundlesOfFour() {
+    testPriceComputed(this.basketBuilder.create(5, 5, 4, 5, 4), (3 * (8 * 5 * 0.75) + 2 * (8 * 4 * 0.8)));
+  }
+
 
   private void testPriceComputed(Basket basket, double expectedPrice) {
     BasketPriceComputer basketPriceComputer = new BasketPriceComputer();

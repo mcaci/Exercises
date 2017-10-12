@@ -1,8 +1,8 @@
 package kata.potter;
 
-public class BasketBuilder {
+public class BasketCreator {
 
-  public Basket build(int... quantityOfBooks) {
+  public Basket create(int... quantityOfBooks) {
     Basket basket = new Basket();
     for (int i = 0; i < quantityOfBooks.length; i++) {
       int bookId = i + 1;

@@ -9,10 +9,6 @@ public class Book {
         this.bookNumber = bookNumber;
     }
 
-    public int getBookNumber() {
-        return bookNumber;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
