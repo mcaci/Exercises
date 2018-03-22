@@ -25,5 +25,6 @@ hs_err_pid*
 .idea
 KataPotter/out
 
-# intellij files
+# project files
 *.iml
+Exercises.code-workspace
