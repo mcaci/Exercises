@@ -9,7 +9,7 @@ func CopyToEmptyGolfCourseMap(golfCourseMap []string) []string {
 }
 
 func createMapLine(golfCourseMapLine string) string {
-	golfLine := ""
+	var golfLine string
 	mapElement := "."
 	for i := 0; i < len(golfCourseMapLine); i++ {
 		golfLine += mapElement

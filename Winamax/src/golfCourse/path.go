@@ -1,30 +1,37 @@
 package golfCourse
 
-func PathFromBallToHole(ballX, ballY, holeX, holeY int) []string {
+func PathFromBallToHole(ballPosition, holePosition *Coordinate) []string {
 	var direction string
 	var sequence []string
-	for ballX != holeX || ballY != holeY {
-		direction, ballX, ballY = getDirection(ballX, ballY, holeX, holeY)
+	pathCoordinate := *ballPosition
+	for pathCoordinate != *holePosition {
+		direction = getDirection(&pathCoordinate, holePosition)
 		sequence = append(sequence, direction)
 	}
 	return sequence
 }
 
-func getDirection(startX, startY, endX, endY int) (string, int, int) {
-	var direction string
-	if startX == endX && endY == startY + 1 {
-		direction = "E"
-		startY++
-	} else if startX == endX && endY == startY - 1 {
-		direction = "W"
-		startY--
-	} else if endX == startX + 1 && endY == startY {
-		direction = "S"
-		startX++
-	} else if endX == startX - 1 && endY == startY {
-		direction = "N"
-		startX--
+func getDirection(ballPosition, holePosition *Coordinate) string {
+	direction := holePositionComparedToBall(ballPosition, holePosition)
+	switch direction {
+		case "v": (ballPosition.X)++
+		case "^": (ballPosition.X)--
+		case ">": (ballPosition.Y)++
+		case "<": (ballPosition.Y)--
 	}
-	return direction, startX, startY
+	return direction
 }
 
+func holePositionComparedToBall(ballPosition, holePosition *Coordinate) string {
+	var direction string
+	if ballPosition.X == holePosition.X && ballPosition.Y > holePosition.Y {
+		direction = "<"
+	} else if ballPosition.X == holePosition.X && ballPosition.Y < holePosition.Y {
+		direction = ">"
+	} else if ballPosition.X > holePosition.X && ballPosition.Y == holePosition.Y {
+		direction = "^"
+	} else if ballPosition.X < holePosition.X && ballPosition.Y == holePosition.Y {
+		direction = "v"
+	}
+	return direction
+}

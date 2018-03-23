@@ -27,43 +27,24 @@ func testFindPath3(t *testing.T) {
 
 func testPath(golfCourse, expectedGolfCourse []string, t *testing.T) {
 	golfMapWithBallsMovement := findPath(golfCourse);
+	// t.Log(golfCourse)
 	if !equal(expectedGolfCourse, golfMapWithBallsMovement) {
 		t.Fatalf("Expected %s but got %s", expectedGolfCourse, golfMapWithBallsMovement)
 	}
 }
 
 func findPath(golfCourseMap []string) []string {
-	startX, startY, _ := golfCourse.FindStart(golfCourseMap)
-	endX, endY, _ := golfCourse.FindEnd(golfCourseMap)
-	sequence := golfCourse.PathFromBallToHole(startX, startY, endX, endY)
-	golfMap := golfCourse.CopyToEmptyGolfCourseMap(golfCourseMap)
-	return replacePathInMap(sequence, golfMap)
+	start, _ := golfCourse.FindStart(golfCourseMap)
+	end, _ := golfCourse.FindEnd(golfCourseMap)
+	steps := golfCourse.PathFromBallToHole(start, end)
+	emptyGolfMap := golfCourse.CopyToEmptyGolfCourseMap(golfCourseMap)
+	return replacePathInMap(start, steps, emptyGolfMap)
 }
 
-func replacePathInMap(sequence, golfMap []string) []string {
-	// str[:index] + string(replacement) + str[index+1:]
-	goRight := ">"
-	goLeft := "<"
-	goUp := "^"
-	goDown := "v"
-	hole := "."
-	mapElement := "."
-	for _, line := range sequence {
-		switch line {
-		case "N":
-			mapElement = goUp
-			golfMap = []string{hole, mapElement}
-		case "S":
-			mapElement = goDown
-			golfMap = []string{mapElement, hole}
-		case "E":
-			mapElement = goRight
-			golfMap = []string{mapElement + hole}
-		case "W":
-			mapElement = goLeft
-			golfMap = []string{hole + mapElement}
-		default:
-		}
+func replacePathInMap(start *golfCourse.Coordinate, sequence, golfMap []string) []string {
+	for _, direction := range sequence {
+		line := golfMap[start.X]
+		golfMap[start.X] = line[:start.Y] + direction + line[start.Y+1:]
 	}
 	return golfMap
 }
