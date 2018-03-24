@@ -25,6 +25,10 @@ func testFindPath3(t *testing.T) {
 	testPath(GolfCourse2Base, []string{".v",".."}, t)
 }
 
+func testFindPathLvh3(t *testing.T) {
+	testPath(GolfCourseLvl3, []string{".v",".."}, t)
+}
+
 func testPath(golfCourse, expectedGolfCourse []string, t *testing.T) {
 	golfMapWithBallsMovement := findPath(golfCourse);
 	// t.Log(golfCourse)
@@ -47,4 +51,16 @@ func replacePathInMap(start *golfCourse.Coordinate, sequence, golfMap []string) 
 		golfMap[start.X] = line[:start.Y] + direction + line[start.Y+1:]
 	}
 	return golfMap
+}
+
+func equal(a, b []string) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, v := range a {
+		if v != b[i] {
+			return false
+		}
+	}
+	return true
 }

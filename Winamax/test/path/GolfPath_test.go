@@ -26,6 +26,14 @@ func TestPath2(t *testing.T) {
 	}
 }
 
+func TestPath3(t *testing.T) {
+	golfMapWithBallsMovement := golfMapToShowBallMovement(GolfCourse2);
+	expectedGolfCourse := []string{"v..", "v..", ">.^"}
+	if !equal(expectedGolfCourse, golfMapWithBallsMovement) {
+		t.Fatalf("Expected %s but got %s", expectedGolfCourse, golfMapWithBallsMovement)
+	}
+}
+
 func golfMapToShowBallMovement(golfCourse []string) []string {
 	goRight := ">"
 	goDown := "v"
@@ -60,16 +68,4 @@ func mapFieldElement(fieldElement string) string {
 	} else {
 		return otherFieldElement
 	}
-}
-
-func equal(a, b []string) bool {
-	if len(a) != len(b) {
-		return false
-	}
-	for i, v := range a {
-		if v != b[i] {
-			return false
-		}
-	}
-	return true
 }

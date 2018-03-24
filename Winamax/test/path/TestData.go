@@ -7,3 +7,5 @@ var GolfCourse2Base = []string {"1","H"}
 var GolfCourse2Rev = []string {"H","1"}
 
 var GolfCourse3 = []string {".1",".H"}
+
+var GolfCourseLvl3 = []string {"2.X", "..H", ".H1"}
