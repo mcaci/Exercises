@@ -7,22 +7,22 @@ func FindPath(golfCourseMap []string) []string {
 	countBalls := CountBalls(golfCourseMap)
 	starts := FindBalls(golfCourseMap)
 	ends := FindHoles(golfCourseMap)
-	var steps [](*Path)
+	var paths [](*Path)
 	if countBalls == 1 {
-		steps = PathFromBallToHole(starts, ends)
+		paths = PathFromBallToHole(starts, ends)
 	} else if starts[0].X == 0  && starts[0].Y == 0 {
 		step0 := Path{starts[0], &([]string{"v"})}
 		step1 := Path{starts[1], &([]string{"v"})}
-		steps = [](*Path){&step0, &step1}
+		paths = [](*Path){&step0, &step1}
 	} else {
 		step0 := Path{starts[0], &([]string{"<"})}
 		step1 := Path{starts[1], &([]string{">"})}
-		steps = [](*Path){&step0, &step1}
+		paths = [](*Path){&step0, &step1}
 	}
-	return replacePathInMap(steps, emptyGolfMap)
+	return buildGolfCourseWithPaths(paths, emptyGolfMap)
 }
 
-func replacePathInMap(paths [](*Path), golfMap []string) []string {
+func buildGolfCourseWithPaths(paths [](*Path), golfMap []string) []string {
 	for _, path := range paths {
 		for _, direction := range *(path.StepSequence) {
 			line := golfMap[path.Start.X]
