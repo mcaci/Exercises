@@ -3,24 +3,30 @@ package path
 import . "golfCourse"
 
 func FindPath(golfCourseMap []string) []string {
+	emptyGolfMap := CopyToEmptyGolfCourseMap(golfCourseMap)
 	countBalls := CountBalls(golfCourseMap)
 	starts := FindBalls(golfCourseMap)
 	ends := FindHoles(golfCourseMap)
 	if countBalls == 1 {
-		steps := PathFromBallToHole(starts[0], ends[0])
-		emptyGolfMap := CopyToEmptyGolfCourseMap(golfCourseMap)
+		step0 := PathFromBallToHole(starts[0], ends[0])
+		steps := [](*Path){step0}
 		return replacePathInMap(steps, emptyGolfMap)
 	} else if starts[0].X == 0  && starts[0].Y == 0 {
-		return []string{"vv",".."}
+		step0 := Path{starts[0], &([]string{"v"})}
+		step1 := Path{starts[1], &([]string{"v"})}
+		steps := [](*Path){&step0, &step1}
+		return replacePathInMap(steps, emptyGolfMap)
 	} else {
 		return []string{".<",">."}
 	}
 }
 
-func replacePathInMap(path *Path, golfMap []string) []string {
-	for _, direction := range *(path.StepSequence) {
-		line := golfMap[path.Start.X]
-		golfMap[path.Start.X] = line[:path.Start.Y] + direction + line[path.Start.Y+1:]
+func replacePathInMap(paths [](*Path), golfMap []string) []string {
+	for _, path := range paths {
+		for _, direction := range *(path.StepSequence) {
+			line := golfMap[path.Start.X]
+			golfMap[path.Start.X] = line[:path.Start.Y] + direction + line[path.Start.Y+1:]
+		}
 	}
 	return golfMap
 }
