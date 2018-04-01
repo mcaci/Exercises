@@ -9,7 +9,7 @@ func FindPath(golfCourseMap []string) []string {
 	ends := FindHoles(golfCourseMap)
 	var steps [](*Path)
 	if countBalls == 1 {
-		step0 := PathFromBallToHole(starts[0], ends[0])
+		step0 := PathFromBallToHole(starts, ends)
 		steps = [](*Path){step0}
 	} else if starts[0].X == 0  && starts[0].Y == 0 {
 		step0 := Path{starts[0], &([]string{"v"})}
@@ -33,15 +33,15 @@ func replacePathInMap(paths [](*Path), golfMap []string) []string {
 	return golfMap
 }
 
-func PathFromBallToHole(ballPosition *Ball, holePosition *Hole) *Path {
+func PathFromBallToHole(ballPosition [](*Ball), holePosition [](*Hole)) *Path {
 	var direction string
 	var sequence []string
-	pathBall := *ballPosition
-	for !(pathBall.X == holePosition.X && pathBall.Y == holePosition.Y) {
-		direction = getDirection(&pathBall, holePosition)
+	pathBall := *(ballPosition[0])
+	for !(pathBall.X == holePosition[0].X && pathBall.Y == holePosition[0].Y) {
+		direction = getDirection(&pathBall, holePosition[0])
 		sequence = append(sequence, direction)
 	}
-	return &Path{ballPosition, &sequence}
+	return &Path{ballPosition[0], &sequence}
 }
 
 func getDirection(ballPosition *Ball, holePosition *Hole) string {
