@@ -4,19 +4,16 @@ import . "golfCourse"
 
 func FindPath(golfCourseMap []string) []string {
 	countBalls := CountBalls(golfCourseMap)
+	starts := FindBalls(golfCourseMap)
+	ends := FindHoles(golfCourseMap)
 	if countBalls == 1 {
-		start := FindBalls(golfCourseMap)[0]
-		end := FindHoles(golfCourseMap)[0]
-		steps := PathFromBallToHole(start, end)
+		steps := PathFromBallToHole(starts[0], ends[0])
 		emptyGolfMap := CopyToEmptyGolfCourseMap(golfCourseMap)
-		return replacePathInMap(start, steps, emptyGolfMap)
-	} else { 
-		starts := FindBalls(golfCourseMap)
-		if starts[0].X == 0  && starts[0].Y == 0 {
-			return []string{"vv",".."}
-		} else {
-			return []string{".<",">."}
-		}
+		return replacePathInMap(starts[0], steps, emptyGolfMap)
+	} else if starts[0].X == 0  && starts[0].Y == 0 {
+		return []string{"vv",".."}
+	} else {
+		return []string{".<",">."}
 	}
 }
 
