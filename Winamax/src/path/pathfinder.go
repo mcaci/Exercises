@@ -27,7 +27,7 @@ func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 	for i, ballAtStartPosition := range balls {
 		ballAtCurrentPosition := *ballAtStartPosition
 		var sequence []string	
-		for !(ballAtCurrentPosition.X() == hole[i].X && ballAtCurrentPosition.Y() == hole[i].Y) {
+		for !(ballAtCurrentPosition.X() == hole[i].X() && ballAtCurrentPosition.Y() == hole[i].Y()) {
 			direction := getDirection(ballAtCurrentPosition, hole[i])
 			sequence = append(sequence, direction)
 			moveBall(&ballAtCurrentPosition, direction)
@@ -46,15 +46,15 @@ func moveBall(ball *Ball, direction string) {
 	}
 }
 
-func getDirection(ball GolfElement, hole *Hole) string {
+func getDirection(ball, hole GolfElement) string {
 	var direction string
-	if ball.X() < hole.X && ball.Y() == hole.Y {
+	if ball.X() < hole.X() && ball.Y() == hole.Y() {
 		direction = "v"
-	} else if ball.X() == hole.X && ball.Y() < hole.Y {
+	} else if ball.X() == hole.X() && ball.Y() < hole.Y() {
 		direction = ">"
-	} else if ball.X() > hole.X && ball.Y() == hole.Y {
+	} else if ball.X() > hole.X() && ball.Y() == hole.Y() {
 		direction = "^"
-	} else if ball.X() == hole.X && ball.Y() > hole.Y {
+	} else if ball.X() == hole.X() && ball.Y() > hole.Y() {
 		direction = "<"
 	}	
 	return direction

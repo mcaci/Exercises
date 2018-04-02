@@ -1,7 +1,7 @@
 package golfCourse
 
 type Hole struct {
-	X, Y int 
+	x, y int 
 }
 
 func FindHoles(golfCourseMap []string) ([](*Hole)) {
@@ -19,4 +19,12 @@ func FindHoles(golfCourseMap []string) ([](*Hole)) {
 
 func isPointAHole(point string) bool {
 	return point == "H"
+}
+
+func (hole Hole) X() int {
+	return hole.x
+}
+
+func (hole Hole) Y() int {
+	return hole.y
 }
