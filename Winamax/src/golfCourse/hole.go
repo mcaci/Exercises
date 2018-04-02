@@ -9,16 +9,20 @@ func FindHoles(golfCourseMap []string) ([](*Hole)) {
 	H := len(golfCourseMap)
 	for i := 0; i < H; i++ {
 		for j := 0; j < len(golfCourseMap[i]); j++ {
-			if isPointAHole(string(golfCourseMap[i][j])) {
-				holes = append(holes, &Hole{i, j})
+			if isPointAHole(golfCourseMap[i][j]) {
+				holes = append(holes, holeSupplier(i, j))
 			}
 		}
 	}
 	return holes
 }
 
-func isPointAHole(point string) bool {
-	return point == "H"
+func isPointAHole(point byte) bool {
+	return point == 72 // letter "H"
+}
+
+func holeSupplier(x, y int) *Hole {
+	return &Hole{x, y}
 }
 
 func (hole Hole) X() int {
