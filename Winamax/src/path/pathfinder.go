@@ -9,7 +9,7 @@ func FindPath(golfCourseMap []string) []string {
 	ends := FindHoles(golfCourseMap)
 	var paths [](*Path)
 	if countBalls == 1 {
-		paths = PathFromBallToHole(starts, ends)
+		paths = pathsFromBallToHole(starts, ends)
 	} else if starts[0].X == 0  && starts[0].Y == 0 {
 		step0 := Path{starts[0], &([]string{"v"})}
 		step1 := Path{starts[1], &([]string{"v"})}
@@ -19,54 +19,43 @@ func FindPath(golfCourseMap []string) []string {
 		step1 := Path{starts[1], &([]string{">"})}
 		paths = [](*Path){&step0, &step1}
 	}
-	return buildGolfCourseWithPaths(paths, emptyGolfMap)
+	return BuildGolfCourseWithPaths(paths, emptyGolfMap)
 }
 
-func buildGolfCourseWithPaths(paths [](*Path), golfMap []string) []string {
-	for _, path := range paths {
-		for _, direction := range *(path.StepSequence) {
-			line := golfMap[path.Start.X]
-			golfMap[path.Start.X] = line[:path.Start.Y] + direction + line[path.Start.Y+1:]
-		}
-	}
-	return golfMap
-}
-
-func PathFromBallToHole(balls [](*Ball), holePosition [](*Hole)) [](*Path) {
+func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 	var paths [](*Path)
 	for i, ballPosition := range balls {
-		pathBall := *ballPosition
+		ball := *ballPosition
 		var sequence []string	
-		for !(pathBall.X == holePosition[i].X && pathBall.Y == holePosition[i].Y) {
-			direction := getDirection(&pathBall, holePosition[i])
+		for !(ball.X == hole[i].X && ball.Y == hole[i].Y) {
+			direction := getDirection(&ball, hole[i])
 			sequence = append(sequence, direction)
+			moveBall(&ball, direction)
 		}
 		paths = append(paths, &Path{ballPosition, &sequence})
 	}
 	return paths
 }
 
-func getDirection(ballPosition *Ball, holePosition *Hole) string {
-	direction := holePositionComparedToBall(ballPosition, holePosition)
+func moveBall(ball *Ball, direction string) {
 	switch direction {
-		case "v": (ballPosition.X)++
-		case "^": (ballPosition.X)--
-		case ">": (ballPosition.Y)++
-		case "<": (ballPosition.Y)--
+		case "v": (ball.X)++
+		case "^": (ball.X)--
+		case ">": (ball.Y)++
+		case "<": (ball.Y)--
 	}
-	return direction
 }
 
-func holePositionComparedToBall(ballPosition *Ball, holePosition *Hole) string {
+func getDirection(ball *Ball, hole *Hole) string {
 	var direction string
-	if ballPosition.X == holePosition.X && ballPosition.Y > holePosition.Y {
-		direction = "<"
-	} else if ballPosition.X == holePosition.X && ballPosition.Y < holePosition.Y {
-		direction = ">"
-	} else if ballPosition.X > holePosition.X && ballPosition.Y == holePosition.Y {
-		direction = "^"
-	} else if ballPosition.X < holePosition.X && ballPosition.Y == holePosition.Y {
+	if ball.X < hole.X && ball.Y == hole.Y {
 		direction = "v"
-	}
+	} else if ball.X == hole.X && ball.Y < hole.Y {
+		direction = ">"
+	} else if ball.X > hole.X && ball.Y == hole.Y {
+		direction = "^"
+	} else if ball.X == hole.X && ball.Y > hole.Y {
+		direction = "<"
+	}	
 	return direction
 }
