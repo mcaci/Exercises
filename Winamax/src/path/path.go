@@ -1,9 +1,9 @@
 package path
 
-import "golfCourse"
+import . "golfCourse"
 
 type Path struct {
-	Start *(golfCourse.Ball)
+	Start *Ball
 	StepSequence *[]string
 }
 

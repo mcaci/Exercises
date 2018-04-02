@@ -1,7 +1,6 @@
 package main
 
 import "fmt"
-import "strconv"
 //import "os"
 
 /**
@@ -12,83 +11,102 @@ import "strconv"
 func main() {
     var width, height int
     fmt.Scan(&width, &height)
-    
+	
+	var golfCourse []string 
     for i := 0; i < height; i++ {
         var row string
-        fmt.Scan(&row)
+		fmt.Scan(&row)
+		golfCourse = append(golfCourse, row)
+	}
+	
+	golfCourseWithPaths := FindPath(golfCourse)
+    for _, row := range golfCourseWithPaths { 
+        fmt.Println(row);
     }
-    for i := 0; i < height; i++ {
-        fmt.Println(">.");
-    }
 }
 
-type Coordinate struct {
-	X, Y int 
+func FindPath(golfCourseMap []string) []string {
+	emptyGolfMap := CopyToEmptyGolfCourseMap(golfCourseMap)
+	starts := FindBalls(golfCourseMap)
+	ends := FindHoles(golfCourseMap)
+	paths := pathsFromBallToHole(starts, ends)
+	return BuildGolfCourseWithPaths(paths, emptyGolfMap)
 }
 
-func FindStart(golfCourseMap []string) (*Coordinate, bool) {
-	return findPoint(golfCourseMap, isPointANumber)
+type Path struct {
+	Start *Ball
+	StepSequence *[]string
 }
 
-func FindEnd(golfCourseMap []string) (*Coordinate, bool) {
-	return findPoint(golfCourseMap, isPointAHole)
+func BuildGolfCourseWithPaths(paths [](*Path), golfMap []string) []string {
+	for _, path := range paths {
+		for _, direction := range *(path.StepSequence) {
+			line := golfMap[path.Start.X()]
+			golfMap[path.Start.X()] = line[:path.Start.Y()] + direction + line[path.Start.Y()+1:]
+		}
+	}
+	return golfMap
 }
 
-func findPoint(golfCourseMap []string, pointPredicate func(string) bool) (*Coordinate, bool) {
+func pathsFromBallToHole(balls, holes []Coordinate) [](*Path) {
+	var paths [](*Path)
+	for i, ball := range balls {
+		ballAtCurrentPosition := ball.(Ball)
+		var sequence []string	
+		for !AreInSamePosition(ballAtCurrentPosition, holes[i]) {
+			direction := getDirection(ballAtCurrentPosition, holes[i])
+			sequence = append(sequence, direction)
+			ballAtCurrentPosition.Move(direction)
+		}
+		ballAtStartPosition := ball.(Ball)
+		paths = append(paths, &Path{&ballAtStartPosition, &sequence})
+	}
+	return paths
+}
+
+func getDirection(ball, hole Coordinate) string {
+	var direction string
+	if ball.X() < hole.X() && ball.Y() == hole.Y() {
+		direction = "v"
+	} else if ball.X() == hole.X() && ball.Y() < hole.Y() {
+		direction = ">"
+	} else if ball.X() > hole.X() && ball.Y() == hole.Y() {
+		direction = "^"
+	} else if ball.X() == hole.X() && ball.Y() > hole.Y() {
+		direction = "<"
+	}	
+	return direction
+}
+
+
+type Coordinate interface {
+	X() int
+	Y() int
+}
+
+func AreInSamePosition(a, b Coordinate) bool {
+	return a.X() == b.X() && a.Y() == b.Y()
+}
+
+func FindElements(golfCourseMap []string, elementPredicate func (byte) bool, elementSupplier func (int, int) Coordinate) []Coordinate {
+	var elements []Coordinate
 	H := len(golfCourseMap)
 	for i := 0; i < H; i++ {
 		for j := 0; j < len(golfCourseMap[i]); j++ {
-			if pointPredicate(string(golfCourseMap[i][j])) {
-				return &Coordinate{i, j}, true
+			if elementPredicate(golfCourseMap[i][j]) {
+				elements = append(elements, elementSupplier(i, j))
 			}
 		}
 	}
-	return &Coordinate{-1, -1}, false
+	return elements
 }
 
-func isPointAHole(point string) bool {
-	return point == "H"
+func FindBalls(golfCourseMap []string) []Coordinate {
+	return FindElements(golfCourseMap, isPointABall, ballSupplier)
 }
 
-func isPointANumber(point string) bool {
-	_, err := strconv.Atoi(point)
-	return err == nil
-}
-
-func PathFromBallToHole(ballPosition, holePosition *Coordinate) []string {
-	var direction string
-	var sequence []string
-	pathCoordinate := *ballPosition
-	for pathCoordinate != *holePosition {
-		direction = getDirection(&pathCoordinate, holePosition)
-		sequence = append(sequence, direction)
-	}
-	return sequence
-}
-
-func getDirection(ballPosition, holePosition *Coordinate) string {
-	direction := holePositionComparedToBall(ballPosition, holePosition)
-	switch direction {
-		case "v": (ballPosition.X)++
-		case "^": (ballPosition.X)--
-		case ">": (ballPosition.Y)++
-		case "<": (ballPosition.Y)--
-	}
-	return direction
-}
-
-func holePositionComparedToBall(ballPosition, holePosition *Coordinate) string {
-	var direction string
-	if ballPosition.X == holePosition.X && ballPosition.Y > holePosition.Y {
-		direction = "<"
-	} else if ballPosition.X == holePosition.X && ballPosition.Y < holePosition.Y {
-		direction = ">"
-	} else if ballPosition.X > holePosition.X && ballPosition.Y == holePosition.Y {
-		direction = "^"
-	} else if ballPosition.X < holePosition.X && ballPosition.Y == holePosition.Y {
-		direction = "v"
-	}
-	return direction
+func FindHoles(golfCourseMap []string) []Coordinate {
+	return FindElements(golfCourseMap, isPointAHole, holeSupplier)
 }
 
 func CopyToEmptyGolfCourseMap(golfCourseMap []string) []string {
@@ -106,4 +124,69 @@ func createMapLine(golfCourseMapLine string) string {
 		golfLine += mapElement
 	}
 	return golfLine
+}
+
+type Ball struct {
+	x, y int 
+}
+
+func isPointABall(point byte) bool {
+	return point <= 57 && point >= 48 // between 0 and 9
+}
+
+func ballSupplier(x, y int) Coordinate {
+	return Ball{x, y}
+}
+
+func (ball *Ball) Move(direction string) {
+	switch direction {
+		case "v": ball.IncrX()
+		case "^": ball.DecrX()
+		case ">": ball.IncrY()
+		case "<": ball.DecrY()
+	}
+}
+
+func (ball *Ball) IncrX() {
+	ball.x++
+}
+
+func (ball *Ball) DecrX() {
+	ball.x--
+}
+
+func (ball *Ball) IncrY() {
+	ball.y++
+}
+
+func (ball *Ball) DecrY() {
+	ball.y--
+}
+
+func (ball Ball) X() int {
+	return ball.x
+}
+
+func (ball Ball) Y() int {
+	return ball.y
+}
+
+type Hole struct {
+	x, y int 
+}
+
+func isPointAHole(point byte) bool {
+	return point == 72 // letter "H"
+}
+
+func holeSupplier(x, y int) Coordinate {
+	return &Hole{x, y}
+}
+
+func (hole Hole) X() int {
+	return hole.x
+}
+
+func (hole Hole) Y() int {
+	return hole.y
 }
