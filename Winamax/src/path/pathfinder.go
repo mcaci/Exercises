@@ -24,15 +24,15 @@ func FindPath(golfCourseMap []string) []string {
 
 func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 	var paths [](*Path)
-	for i, ballPosition := range balls {
-		ball := *ballPosition
+	for i, ballAtStartPosition := range balls {
+		ballAtCurrentPosition := *ballAtStartPosition
 		var sequence []string	
-		for !(ball.X == hole[i].X && ball.Y == hole[i].Y) {
-			direction := getDirection(&ball, hole[i])
+		for !(ballAtCurrentPosition.X == hole[i].X && ballAtCurrentPosition.Y == hole[i].Y) {
+			direction := getDirection(&ballAtCurrentPosition, hole[i])
 			sequence = append(sequence, direction)
-			moveBall(&ball, direction)
+			moveBall(&ballAtCurrentPosition, direction)
 		}
-		paths = append(paths, &Path{ballPosition, &sequence})
+		paths = append(paths, &Path{ballAtStartPosition, &sequence})
 	}
 	return paths
 }
