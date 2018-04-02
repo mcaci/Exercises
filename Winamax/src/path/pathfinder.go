@@ -42,15 +42,6 @@ func pathsFromBallToHole(balls, holes []Coordinate) [](*Path) {
 	return paths
 }
 
-func moveBall(ball *Ball, direction string) {
-	switch direction {
-		case "v": ball.IncrX()
-		case "^": ball.DecrX()
-		case ">": ball.IncrY()
-		case "<": ball.DecrY()
-	}
-}
-
 func getDirection(ball, hole Coordinate) string {
 	var direction string
 	if ball.X() < hole.X() && ball.Y() == hole.Y() {
