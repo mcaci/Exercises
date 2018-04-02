@@ -10,29 +10,34 @@ func FindPath(golfCourseMap []string) []string {
 	var paths [](*Path)
 	if countBalls == 1 {
 		paths = pathsFromBallToHole(starts, ends)
-	} else if starts[0].X() == 0  && starts[0].Y() == 0 {
-		step0 := Path{starts[0], &([]string{"v"})}
-		step1 := Path{starts[1], &([]string{"v"})}
+	} else if starts[0].X() == 0 && starts[0].Y() == 0 {
+		ball0 := starts[0].(Ball)
+		step0 := Path{&ball0, &([]string{"v"})}
+		ball1 := starts[1].(Ball)
+		step1 := Path{&ball1, &([]string{"v"})}
 		paths = [](*Path){&step0, &step1}
 	} else {
-		step0 := Path{starts[0], &([]string{"<"})}
-		step1 := Path{starts[1], &([]string{">"})}
+		ball0 := starts[0].(Ball)
+		step0 := Path{&ball0, &([]string{"<"})}
+		ball1 := starts[1].(Ball)
+		step1 := Path{&ball1, &([]string{">"})}
 		paths = [](*Path){&step0, &step1}
 	}
 	return BuildGolfCourseWithPaths(paths, emptyGolfMap)
 }
 
-func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
+func pathsFromBallToHole(balls, holes []Coordinate) [](*Path) {
 	var paths [](*Path)
-	for i, ballAtStartPosition := range balls {
-		ballAtCurrentPosition := *ballAtStartPosition
+	for i, ball := range balls {
+		ballAtCurrentPosition := ball.(Ball)
 		var sequence []string	
-		for !AreInSamePosition(ballAtCurrentPosition, hole[i]) {
-			direction := getDirection(ballAtCurrentPosition, hole[i])
+		for !AreInSamePosition(ballAtCurrentPosition, holes[i]) {
+			direction := getDirection(ballAtCurrentPosition, holes[i])
 			sequence = append(sequence, direction)
-			moveBall(&ballAtCurrentPosition, direction)
+			ballAtCurrentPosition.Move(direction)
 		}
-		paths = append(paths, &Path{ballAtStartPosition, &sequence})
+		ballAtStartPosition := ball.(Ball)
+		paths = append(paths, &Path{&ballAtStartPosition, &sequence})
 	}
 	return paths
 }
@@ -46,7 +51,7 @@ func moveBall(ball *Ball, direction string) {
 	}
 }
 
-func getDirection(ball, hole GolfElement) string {
+func getDirection(ball, hole Coordinate) string {
 	var direction string
 	if ball.X() < hole.X() && ball.Y() == hole.Y() {
 		direction = "v"

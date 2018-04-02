@@ -1,10 +1,10 @@
 package golfCourse 
 
-type GolfElement interface {
+type Coordinate interface {
 	X() int
 	Y() int
 }
 
-func AreInSamePosition(a, b GolfElement) bool {
+func AreInSamePosition(a, b Coordinate) bool {
 	return a.X() == b.X() && a.Y() == b.Y()
 }

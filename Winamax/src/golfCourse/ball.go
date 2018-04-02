@@ -4,25 +4,21 @@ type Ball struct {
 	x, y int 
 }
 
-func FindBalls(golfCourseMap []string) ([](*Ball)) {
-	var balls [](*Ball) 
-	H := len(golfCourseMap)
-	for i := 0; i < H; i++ {
-		for j := 0; j < len(golfCourseMap[i]); j++ {
-			if isPointABall(golfCourseMap[i][j]) {
-				balls = append(balls, ballSupplier(i, j))
-			}
-		}
-	}
-	return balls
-}
-
 func isPointABall(point byte) bool {
 	return point <= 57 && point >= 48 // between 0 and 9
 }
 
-func ballSupplier(x, y int) *Ball {
-	return &Ball{x, y}
+func ballSupplier(x, y int) Coordinate {
+	return Ball{x, y}
+}
+
+func (ball *Ball) Move(direction string) {
+	switch direction {
+		case "v": ball.IncrX()
+		case "^": ball.DecrX()
+		case ">": ball.IncrY()
+		case "<": ball.DecrY()
+	}
 }
 
 func (ball *Ball) IncrX() {
