@@ -27,7 +27,7 @@ func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 	for i, ballAtStartPosition := range balls {
 		ballAtCurrentPosition := *ballAtStartPosition
 		var sequence []string	
-		for !(ballAtCurrentPosition.X() == hole[i].X() && ballAtCurrentPosition.Y() == hole[i].Y()) {
+		for !AreInSamePosition(ballAtCurrentPosition, hole[i]) {
 			direction := getDirection(ballAtCurrentPosition, hole[i])
 			sequence = append(sequence, direction)
 			moveBall(&ballAtCurrentPosition, direction)
