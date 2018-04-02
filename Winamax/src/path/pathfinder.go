@@ -10,7 +10,7 @@ func FindPath(golfCourseMap []string) []string {
 	var paths [](*Path)
 	if countBalls == 1 {
 		paths = pathsFromBallToHole(starts, ends)
-	} else if starts[0].X == 0  && starts[0].Y == 0 {
+	} else if starts[0].X() == 0  && starts[0].Y() == 0 {
 		step0 := Path{starts[0], &([]string{"v"})}
 		step1 := Path{starts[1], &([]string{"v"})}
 		paths = [](*Path){&step0, &step1}
@@ -27,8 +27,8 @@ func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 	for i, ballAtStartPosition := range balls {
 		ballAtCurrentPosition := *ballAtStartPosition
 		var sequence []string	
-		for !(ballAtCurrentPosition.X == hole[i].X && ballAtCurrentPosition.Y == hole[i].Y) {
-			direction := getDirection(&ballAtCurrentPosition, hole[i])
+		for !(ballAtCurrentPosition.X() == hole[i].X && ballAtCurrentPosition.Y() == hole[i].Y) {
+			direction := getDirection(ballAtCurrentPosition, hole[i])
 			sequence = append(sequence, direction)
 			moveBall(&ballAtCurrentPosition, direction)
 		}
@@ -39,22 +39,22 @@ func pathsFromBallToHole(balls [](*Ball), hole [](*Hole)) [](*Path) {
 
 func moveBall(ball *Ball, direction string) {
 	switch direction {
-		case "v": (ball.X)++
-		case "^": (ball.X)--
-		case ">": (ball.Y)++
-		case "<": (ball.Y)--
+		case "v": ball.IncrX()
+		case "^": ball.DecrX()
+		case ">": ball.IncrY()
+		case "<": ball.DecrY()
 	}
 }
 
-func getDirection(ball *Ball, hole *Hole) string {
+func getDirection(ball GolfElement, hole *Hole) string {
 	var direction string
-	if ball.X < hole.X && ball.Y == hole.Y {
+	if ball.X() < hole.X && ball.Y() == hole.Y {
 		direction = "v"
-	} else if ball.X == hole.X && ball.Y < hole.Y {
+	} else if ball.X() == hole.X && ball.Y() < hole.Y {
 		direction = ">"
-	} else if ball.X > hole.X && ball.Y == hole.Y {
+	} else if ball.X() > hole.X && ball.Y() == hole.Y {
 		direction = "^"
-	} else if ball.X == hole.X && ball.Y > hole.Y {
+	} else if ball.X() == hole.X && ball.Y() > hole.Y {
 		direction = "<"
 	}	
 	return direction

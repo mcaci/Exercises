@@ -3,7 +3,7 @@ package golfCourse
 import "strconv"
 
 type Ball struct {
-	X, Y int 
+	x, y int 
 }
 
 func FindBalls(golfCourseMap []string) ([](*Ball)) {
@@ -22,4 +22,28 @@ func FindBalls(golfCourseMap []string) ([](*Ball)) {
 func isPointABall(point string) bool {
 	_, err := strconv.Atoi(point)
 	return err == nil
+}
+
+func (ball *Ball) IncrX() {
+	ball.x++
+}
+
+func (ball *Ball) DecrX() {
+	ball.x--
+}
+
+func (ball *Ball) IncrY() {
+	ball.y++
+}
+
+func (ball *Ball) DecrY() {
+	ball.y--
+}
+
+func (ball Ball) X() int {
+	return ball.x
+}
+
+func (ball Ball) Y() int {
+	return ball.y
 }
