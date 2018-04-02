@@ -10,7 +10,7 @@ func FindBalls(golfCourseMap []string) ([](*Ball)) {
 	for i := 0; i < H; i++ {
 		for j := 0; j < len(golfCourseMap[i]); j++ {
 			if isPointABall(golfCourseMap[i][j]) {
-				balls = append(balls, &Ball{i, j})
+				balls = append(balls, ballSupplier(i, j))
 			}
 		}
 	}
@@ -19,6 +19,10 @@ func FindBalls(golfCourseMap []string) ([](*Ball)) {
 
 func isPointABall(point byte) bool {
 	return point <= 57 && point >= 48 // between 0 and 9
+}
+
+func ballSupplier(x, y int) *Ball {
+	return &Ball{x, y}
 }
 
 func (ball *Ball) IncrX() {
