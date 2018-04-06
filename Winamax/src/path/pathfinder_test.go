@@ -30,6 +30,14 @@ func TestFindPath5(t *testing.T) {
 	testPath([]string {"H1","1H"}, []string{".<",">."}, t)
 }
 
+func testFindPath6(t *testing.T) {
+	testPath([]string {"2.",".H"}, []string{"v.",">."}, t)
+}
+
+func test2Paths(t *testing.T) {
+	testPath([]string {"2.X", "..H", ".H1"}, []string{"v..", "v..", ">.^"}, t)
+}
+
 func testPath(golfCourseMap, expectedGolfCourse []string, t *testing.T) {
 	golfMapWithBallsMovement := FindPath(golfCourseMap);
 	if !equal(expectedGolfCourse, golfMapWithBallsMovement) {

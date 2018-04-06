@@ -1,7 +1,7 @@
 package golfCourse
 
 type Ball struct {
-	x, y int 
+	x, y, hitCount int
 }
 
 func isPointABall(point byte) bool {
@@ -9,7 +9,7 @@ func isPointABall(point byte) bool {
 }
 
 func ballSupplier(x, y int) Coordinate {
-	return Ball{x, y}
+	return &Ball{x, y, 0}
 }
 
 func (ball *Ball) Move(direction string) {
@@ -19,6 +19,14 @@ func (ball *Ball) Move(direction string) {
 		case ">": ball.IncrY()
 		case "<": ball.DecrY()
 	}
+}
+
+func (ball *Ball) SetHitCount(hitCount int) {
+	ball.hitCount = hitCount
+}
+
+func (ball *Ball) DecrHitCount() {
+	ball.hitCount--
 }
 
 func (ball *Ball) IncrX() {
@@ -37,10 +45,10 @@ func (ball *Ball) DecrY() {
 	ball.y--
 }
 
-func (ball Ball) X() int {
+func (ball *Ball) X() int {
 	return ball.x
 }
 
-func (ball Ball) Y() int {
+func (ball *Ball) Y() int {
 	return ball.y
 }
