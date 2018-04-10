@@ -12,10 +12,10 @@ func holeSupplier(x, y int) Coordinate {
 	return &Hole{x, y}
 }
 
-func (hole Hole) X() int {
+func (hole *Hole) X() int {
 	return hole.x
 }
 
-func (hole Hole) Y() int {
+func (hole *Hole) Y() int {
 	return hole.y
 }

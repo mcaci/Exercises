@@ -13,10 +13,10 @@ func FindPath(golfCourseMap []string) []string {
 func pathsFromBallToHole(balls, holes []Coordinate) [](*Path) {
 	var paths [](*Path)
 	for i, ball := range balls {
-		ballAtCurrentPosition := ball.(*Ball)
+		ballAtCurrentPosition := *(ball.(*Ball))
 		var sequence []string
-		for !AreInSamePosition(ballAtCurrentPosition, holes[i]) {
-			direction := getDirection(ballAtCurrentPosition, holes[i])
+		for !AreInSamePosition(&ballAtCurrentPosition, holes[i]) {
+			direction := getDirection(&ballAtCurrentPosition, holes[i])
 			sequence = append(sequence, direction)
 			ballAtCurrentPosition.Move(direction)
 		}
