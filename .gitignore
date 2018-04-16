@@ -28,3 +28,6 @@ KataPotter/out
 # project files
 *.iml
 Exercises.code-workspace
+
+CodeForLife/pkg/
+CodeForLife/bin/
