@@ -30,7 +30,7 @@ func TestFindPath5(t *testing.T) {
 	testPath([]string {"H1","1H"}, []string{".<",">."}, t)
 }
 
-func testFindPath6(t *testing.T) {
+func TestFindPath6(t *testing.T) {
 	testPath([]string {"2.",".H"}, []string{"v.",">."}, t)
 }
 

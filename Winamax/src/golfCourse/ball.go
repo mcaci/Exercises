@@ -18,6 +18,7 @@ func (ball *Ball) Move(direction string) {
 		case "^": ball.DecrX()
 		case ">": ball.IncrY()
 		case "<": ball.DecrY()
+		default: panic("no direction taken")
 	}
 }
 
