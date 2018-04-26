@@ -2,33 +2,41 @@ package motorbike
 
 import "testing"
 
-func TestOnPlatformSlowdownIfMoving(t *testing.T) {
-	testMoto := motorbike{11, 5}
-	testBridge := bridge{6, 4, 8}
+const executed = " but it executed: %s"
 
-	motorbikeCommand := testMoto.nextCommand(&testBridge)
-	if "SLOW" != motorbikeCommand {
-		t.Fatalf("Motorbike should slow down on the platform but it executed: %s", motorbikeCommand)
-	}
+func TestOnPlatformSlowdownIfMoving(t *testing.T) {
+	testMoto := newMotorbike(11, 5)
+	testBridge := bridge{6, 4, 8}
+	testMotorbikeCommand(testMoto, &testBridge, "SLOW", t)
 }
 
 func TestOnPlatformStopIfNotMoving(t *testing.T) {
-	testMoto := motorbike{11, 0}
+	testMoto := newMotorbike(11, 0)
 	testBridge := bridge{6, 4, 8}
-
-	motorbikeCommand := testMoto.nextCommand(&testBridge)
-	if "WAIT" != motorbikeCommand {
-		t.Fatalf("Motorbike should stop when not moving on the platform but it executed: %s", motorbikeCommand)
-	}
+	testMotorbikeCommand(testMoto, &testBridge, "WAIT", t)
 }
 
-
 func TestJumpCondition(t *testing.T) {
-	testMoto := motorbike{5, 5}
+	testMoto := newMotorbike(5, 5)
 	testBridge := bridge{6, 4, 8}
+	testMotorbikeCommand(testMoto, &testBridge, "JUMP", t)
+}
 
-	motorbikeCommand := testMoto.nextCommand(&testBridge)
-	if "JUMP" != motorbikeCommand {
-		t.Fatalf("Motorbike should stop when not moving on the platform but it executed: %s", motorbikeCommand)
+func TestSpeedCondition(t *testing.T) {
+	testMoto := newMotorbike(0, 0)
+	testBridge := bridge{6, 4, 8}
+	testMotorbikeCommand(testMoto, &testBridge, "SPEED", t)
+}
+
+func TestMaxSpeedCondition(t *testing.T) {
+	testMoto := newMotorbike(3, 5)
+	testBridge := bridge{6, 4, 8}
+	testMotorbikeCommand(testMoto, &testBridge, "WAIT", t)
+}
+
+func testMotorbikeCommand(m *motorbike, b* bridge, expectedCommand string, t *testing.T) {
+	motorbikeCommand := m.nextCommand(b)
+	if expectedCommand != motorbikeCommand {
+		t.Fatalf("Motorbike should accelerate at start" + executed, motorbikeCommand)
 	}
 }
