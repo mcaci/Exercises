@@ -12,7 +12,6 @@ func TestMotoMaxSpeedShouldBe1MoreThanGapSize(t *testing.T) {
 	}
 }
 
-
 func TestMotoMaxSpeedShouldBe1MoreThanGapSize2(t *testing.T) {
 	testMoto := newMotorbike(0, 0)
 	testBridge := bridge{6, 2, 8}
