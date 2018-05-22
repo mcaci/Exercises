@@ -4,13 +4,19 @@ import "testing"
 
 func TestNextNumberWithA10B10M10StartingWith1(t *testing.T) {
 	testlcg := new(LCG)
-	testlcg.seed = 1
-	testlcg.a = 10
-	testlcg.b = 10
-	testlcg.m = 10
+	testlcg.Init(1, 10, 10, 10)
+	testNumberCorrectness(t, 10, testlcg)
+}
 
-	expectedNextNumber := 10
-	actualNextNumber := testlcg.NextRandomNumber()
+func TestNextOfNextNumberWithA10B10M10StartingWith1(t *testing.T) {
+	testlcg := new(LCG)
+	testlcg.Init(1, 10, 10, 10)
+	testlcg.Next()
+	testNumberCorrectness(t, 100, testlcg)
+}
+
+func testNumberCorrectness(t *testing.T, expectedNextNumber int, lcg *LCG) {
+	actualNextNumber := lcg.Next()
 	if actualNextNumber != expectedNextNumber {
 		t.Fatalf("Expected next number to be %d but %d was computed", expectedNextNumber, actualNextNumber)
 	}
