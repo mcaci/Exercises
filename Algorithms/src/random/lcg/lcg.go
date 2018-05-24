@@ -7,7 +7,7 @@ type linearCongruentialGenerator struct {
 type LCG linearCongruentialGenerator
 
 func (lcg *LCG) Next() int {
-	lcg.current = lcg.current*lcg.a + lcg.b%lcg.m
+	lcg.current = (lcg.current*lcg.a + lcg.b)%lcg.m
 	return lcg.current
 }
 
