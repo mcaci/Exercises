@@ -1,15 +1,14 @@
-package motorbike
+package speed
 
 import "testing"
 import "reflect"
+import "bridge/env"
 
 func TestPathToJumpSpeeds(t *testing.T) {
-	testMoto := newMotorbike(0, 0)
-	testBridge := bridge{17, 4, 15}
+	testEnv := env.Init(0, 0, 17, 4, 15)
 
-	// speedsToCover := getSpeedsToCover(testMoto, &testBridge)
-	speeds := speedMap(testMoto, &testBridge)
-	expectedSpeeds := make(map[int]int)
+	speeds := *BuildSpeedMap(testEnv.GetMotorbike(), testEnv.GetBridge())
+	expectedSpeeds := make(Map)
 	expectedSpeeds[1] = 2
 	expectedSpeeds[2] = 1
 	expectedSpeeds[3] = 1
@@ -21,12 +20,10 @@ func TestPathToJumpSpeeds(t *testing.T) {
 }
 
 func TestPathToSlows(t *testing.T) {
-	testMoto := newMotorbike(0, 6)
-	testBridge := bridge{17, 4, 15}
+	testEnv := env.Init(0, 6, 17, 4, 15)
 
-	// speedsToCover := getSpeedsToCover(testMoto, &testBridge)
-	speeds := speedMap(testMoto, &testBridge)
-	expectedSpeeds := make(map[int]int)
+	speeds := *BuildSpeedMap(testEnv.GetMotorbike(), testEnv.GetBridge())
+	expectedSpeeds := make(Map)
 	expectedSpeeds[5] = 2
 	expectedSpeeds[6] = 1
 	if !reflect.DeepEqual(speeds, expectedSpeeds) {
@@ -35,11 +32,10 @@ func TestPathToSlows(t *testing.T) {
 }
 
 func TestPathWithStartingSpeedMatchingJumpSpeedButNeedsToBeAdjustedDownwards(t *testing.T) {
-	testMoto := newMotorbike(0, 4)
-	testBridge := bridge{11, 3, 15}
+	testEnv := env.Init(0, 4, 11, 3, 15)
 
-	speeds := speedMap(testMoto, &testBridge)
-	expectedSpeeds := make(map[int]int)
+	speeds := *BuildSpeedMap(testEnv.GetMotorbike(), testEnv.GetBridge())
+	expectedSpeeds := make(Map)
 	expectedSpeeds[3] = 2
 	expectedSpeeds[4] = 1
 	if !reflect.DeepEqual(speeds, expectedSpeeds) {
