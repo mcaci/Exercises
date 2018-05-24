@@ -12,9 +12,9 @@ func (lcg *LCG) Next() int {
 }
 
 func (lcg *LCG) Init(seed, a, b, m int) {
-	lcg.seed = seed
 	lcg.a = a
 	lcg.b = b
 	lcg.m = m
+	lcg.seed = seed
 	lcg.current = seed
 }
