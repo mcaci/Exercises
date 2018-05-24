@@ -29,5 +29,7 @@ KataPotter/out
 *.iml
 Exercises.code-workspace
 
-CodeForLife/pkg/
-CodeForLife/bin/
+**/pkg/
+**/bin/
+**/github.com
+**/golang.org
