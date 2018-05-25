@@ -4,7 +4,7 @@ func serieIndex(lcg *LCG) float64 {
 	index := 0
 	last := -1
 	current := -1
-	for ; lcg.seed != current && index < 100; index++ {
+	for ; lcg.seed != current; index++ {
 		current = lcg.Next()
 		if last == current {
 			return 0.0
