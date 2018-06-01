@@ -2,6 +2,10 @@ package gcd
 
 import "testing"
 
+func TestGcdOf6And10(t *testing.T) {
+	testGcd(t, 6, 10, 2)
+}
+
 func TestGcdOf10And15(t *testing.T) {
 	testGcd(t, 10, 15, 5)
 }
