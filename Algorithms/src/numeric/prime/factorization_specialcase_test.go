@@ -5,17 +5,16 @@ import (
 )
 
 func TestFactorizationOf0isASpecialCase(t *testing.T) {
-	const value uint = 0
-	_, specialCase := Factor(value)
-	if !specialCase {
-		t.Fatalf("%d is a special case of factorization", value)
-	}
+	verifyIsValueIsASpecialCaseOfFactorization(t, 0, func(b bool) bool { return !b })
 }
 
 func TestFactorizationOf2isNotASpecialCase(t *testing.T) {
-	const value uint = 2
+	verifyIsValueIsASpecialCaseOfFactorization(t, 2, func(b bool) bool { return b })
+}
+
+func verifyIsValueIsASpecialCaseOfFactorization(t *testing.T, value uint, predicate func(bool) bool) {
 	_, specialCase := Factor(value)
-	if specialCase {
+	if predicate(specialCase) {
 		t.Fatalf("%d is not a special case of factorization", value)
 	}
 }
