@@ -12,6 +12,14 @@ func TestFactorizationOf0isASpecialCase(t *testing.T) {
 	}
 }
 
+func TestFactorizationOf0isNil(t *testing.T) {
+	value := uint(0)
+	factors, _ := Factor(value)
+	if factors != nil {
+		t.Fatalf("nil should be returned as the list of factors and instead %v was returned", factors)
+	}
+}
+
 func TestFactorizationOf2isNotASpecialCase(t *testing.T) {
 	value := uint(2)
 	_, specialCase := Factor(value)
