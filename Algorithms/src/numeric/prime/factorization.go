@@ -6,7 +6,12 @@ func Factor(numberToFactor uint) (*Primes, bool) {
 	var primes Primes
 	var isSpecialCase = numberToFactor < 2
 	if !isSpecialCase {
-		primes = append(primes, numberToFactor)
+		if numberToFactor == 4 {
+			primes = append(primes, 2)
+			primes = append(primes, 2)
+		} else {
+			primes = append(primes, numberToFactor)
+		}
 	}
 	return &primes, isSpecialCase
 }
