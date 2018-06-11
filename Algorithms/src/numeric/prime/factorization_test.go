@@ -40,7 +40,7 @@ func TestFactorizationOf2is2(t *testing.T) {
 }
 
 func TestFactorizationOf3is3(t *testing.T) {
-	value := uint(2)
+	value := 3
 	factors, _ := Factor(value)
 	var factorsOf3 = [1]uint{3}
 	for i, factor := range *factors {
