@@ -1,7 +1,8 @@
 package prime
 
-type Primes map[int]int
+type Primes []uint
 
 func Factor(numberToFactor uint) (*Primes, bool) {
-	return new(Primes), numberToFactor < 2
+	primes := Primes{2}
+	return &primes, numberToFactor < 2
 }
