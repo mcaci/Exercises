@@ -3,10 +3,10 @@ package prime
 type Primes []uint
 
 func Factor(numberToFactor uint) (*Primes, bool) {
-	if numberToFactor < 1 {
-		return nil, true
-	} else {
-		primes := Primes{2}
-		return &primes, numberToFactor < 2
+	var primes Primes
+	isSpecialCase := numberToFactor < 2
+	if !isSpecialCase {
+		primes = append(primes, 2)
 	}
+	return &primes, isSpecialCase
 }
