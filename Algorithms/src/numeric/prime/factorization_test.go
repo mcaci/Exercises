@@ -1,11 +1,12 @@
 package prime
 
 import (
+	"reflect"
 	"testing"
 )
 
 func TestFactorizationOf0isNil(t *testing.T) {
-	verifyThatFactorsAreExpectedOnes(t, 0, []uint{})
+	verifyThatFactorsAreExpectedOnes(t, 0, nil)
 }
 
 func TestFactorizationOf2is2(t *testing.T) {
@@ -20,11 +21,13 @@ func TestFactorizationOf4is2times2(t *testing.T) {
 	verifyThatFactorsAreExpectedOnes(t, 4, []uint{2, 2})
 }
 
+func TestFactorizationOf5is5(t *testing.T) {
+	verifyThatFactorsAreExpectedOnes(t, 5, []uint{5})
+}
+
 func verifyThatFactorsAreExpectedOnes(t *testing.T, value uint, expectedFactors []uint) {
 	factors, _ := Factor(value)
-	for i, factor := range *factors {
-		if factor != expectedFactors[i] {
-			t.Fatalf("Expected factors are %v but got %v", expectedFactors, *factors)
-		}
+	if !reflect.DeepEqual(*factors, Primes(expectedFactors)) {
+		t.Fatalf("Expected factors are %v but got %v", expectedFactors, *factors)
 	}
 }
