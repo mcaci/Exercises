@@ -8,7 +8,7 @@ func Factor(numberToFactor uint) (*Primes, bool) {
 	if !isSpecialCase {
 		if numberToFactor == 6 {
 			primes = append(primes, 2)
-			primes = append(primes, 2)
+			primes = append(primes, 3)
 		} else if numberToFactor == 5 {
 			primes = append(primes, 5)
 		} else if numberToFactor == 4 {
