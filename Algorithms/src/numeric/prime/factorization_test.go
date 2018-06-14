@@ -33,6 +33,14 @@ func TestFactorizationOf7is7(t *testing.T) {
 	verifyThatFactorsAreExpectedOnes(t, 7, []uint{7})
 }
 
+func TestFactorizationOf20is2times2times5(t *testing.T) {
+	verifyThatFactorsAreExpectedOnes(t, 20, []uint{2, 2, 5})
+}
+
+func TestFactorizationOf260is2times2times5times13(t *testing.T) {
+	verifyThatFactorsAreExpectedOnes(t, 260, []uint{2, 2, 5, 13})
+}
+
 func verifyThatFactorsAreExpectedOnes(t *testing.T, value uint, expectedFactors []uint) {
 	factors, _ := Factor(value)
 	if !reflect.DeepEqual(*factors, Primes(expectedFactors)) {
