@@ -6,12 +6,23 @@ import (
 )
 
 func TestListOfPrimesUpTo2(t *testing.T) {
-	list := ErathosthenesSieve(2)
-	if !reflect.DeepEqual([]uint{2}, list) {
-		t.Fatalf("List should be composed of %v but is %v", []uint{2}, list)
-	}
+	verify(t, ErathosthenesSieve(2), []uint{2})
 }
 
-func ErathosthenesSieve(limit uint) []uint {
-	return []uint{2}
+func TestListOfPrimesUpTo3(t *testing.T) {
+	verify(t, ErathosthenesSieve(3), []uint{2, 3})
+}
+
+// func TestListOfPrimesUpTo4(t *testing.T) {
+// 	verify(t, ErathosthenesSieve(4), []uint{2, 3})
+// }
+
+func TestListOfPrimesUpTo5(t *testing.T) {
+	verify(t, ErathosthenesSieve(5), []uint{2, 3, 5})
+}
+
+func verify(t *testing.T, list, expectedList []uint) {
+	if !reflect.DeepEqual(list, expectedList) {
+		t.Fatalf("List should be composed of %v but is %v", expectedList, list)
+	}
 }
