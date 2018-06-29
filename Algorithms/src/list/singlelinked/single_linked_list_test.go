@@ -1,7 +1,6 @@
 package singlelinked
 
 import "testing"
-import "errors"
 
 func TestGetFromEmptyListShouldReturnErrorMessage(t *testing.T) {
 	var v SingleLinkedList
@@ -20,18 +19,20 @@ func TestGetFirstElementFromNonEmptyListShouldNotReturnErrorMessage(t *testing.T
 	}
 }
 
-type SingleLinkedList struct {
-	counter int
+func TestGet1stElementFromListWithSize1ShouldReturnErrorMessage(t *testing.T) {
+	var v SingleLinkedList
+	v.Add(10)
+	_, err := v.Get(1)
+	if err == nil {
+		t.Fatal()
+	}
 }
 
-func (sll *SingleLinkedList) Add(cell int) {
-	sll.counter++;
-}
-
-func (sll *SingleLinkedList) Get(position int) (int, error) {
-	if sll.counter > 0 {
-		return 0, nil
-	} else {
-		return 0, errors.New("Cannot get from empty list")
+func TestGet5thElementFromListWithSize1ShouldReturnErrorMessage(t *testing.T) {
+	var v SingleLinkedList
+	v.Add(10)
+	_, err := v.Get(5)
+	if err == nil {
+		t.Fatal()
 	}
 }
