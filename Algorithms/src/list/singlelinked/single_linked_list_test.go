@@ -21,13 +21,17 @@ func TestGetFirstElementFromNonEmptyListShouldNotReturnErrorMessage(t *testing.T
 }
 
 type SingleLinkedList struct {
-
+	counter int
 }
 
-func (s *SingleLinkedList) Add(cell int) {
-	
+func (sll *SingleLinkedList) Add(cell int) {
+	sll.counter++;
 }
 
-func (s *SingleLinkedList) Get(position int) (int, error) {
-	return 0, errors.New("Cannot get from empty list")
+func (sll *SingleLinkedList) Get(position int) (int, error) {
+	if sll.counter > 0 {
+		return 0, nil
+	} else {
+		return 0, errors.New("Cannot get from empty list")
+	}
 }
