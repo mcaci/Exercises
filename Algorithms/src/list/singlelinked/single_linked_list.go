@@ -17,7 +17,7 @@ func (sll *SingleLinkedList) Add(cell int) {
 	if sll.first == nil {
 		sll.first = createAndAddCell(cell)
 	} else {
-		node := sll.iterateToTheEndOfTheList()
+		node := sll.iterateUntil(func (index int, node *SingleLinkedListCell) bool { return node.next != nil })
 		node.next = createAndAddCell(cell)
 	}
 }
@@ -26,7 +26,7 @@ func (sll *SingleLinkedList) Get(position int) (int, error) {
 	err := errorCheck(sll.counter, position)
 	var value int
 	if err == nil {
-		node := sll.iterateTo(position)
+		node := sll.iterateUntil(func (index int, node *SingleLinkedListCell) bool {return index < position})
 		value = node.value
 	}
 	return value, err	
@@ -48,17 +48,9 @@ func createAndAddCell(cell int) *SingleLinkedListCell {
 	return sllCell
 }
 
-func (sll *SingleLinkedList) iterateToTheEndOfTheList() *SingleLinkedListCell {
+func (sll *SingleLinkedList) iterateUntil(iteratingCondition func (int, *SingleLinkedListCell) bool) *SingleLinkedListCell {
 	node := sll.first
-	for node.next != nil {
-		node = node.next
-	}
-	return node
-}
-
-func (sll *SingleLinkedList) iterateTo(position int) *SingleLinkedListCell {
-	node := sll.first
-	for i := 0; i < position; i++ {
+	for i := 0; iteratingCondition(i, node); i++ {
 		node = node.next
 	}
 	return node
