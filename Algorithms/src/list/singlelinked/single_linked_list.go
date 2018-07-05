@@ -22,6 +22,10 @@ func (sll *SingleLinkedList) Add(cell int) {
 	}
 }
 
+func (sll *SingleLinkedList) AddSequence(sequence ...int) {
+	for _, element := range sequence { sll.Add(element) }
+}
+
 func (sll *SingleLinkedList) Get(position int) (int, error) {
 	err := errorCheck(sll.counter, position)
 	var value int
