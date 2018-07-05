@@ -18,15 +18,15 @@ func TestGet5thElementFromListWithSize1ShouldReturnErrorMessage(t *testing.T) {
 	verifyOutcome(t, createSingleLinkedList(1), 4, expectedErrorMessagePredicate)
 }
 
-func createSingleLinkedList(size int) *SingleLinkedList {
-	var v SingleLinkedList
+func createSingleLinkedList(size int) *SLL {
+	var v SLL
 	if size == 1 { v.Add(10) }
 	return &v
 }
 
 func expectedErrorMessagePredicate(err error) bool {return err == nil}
 
-func verifyOutcome(t *testing.T, list *SingleLinkedList, position int, comparisonPredicate func(error) bool) {
+func verifyOutcome(t *testing.T, list *SLL, position int, comparisonPredicate func(error) bool) {
 	_, err := list.Get(position)
 	if comparisonPredicate(err) { t.Fatal() }
 }

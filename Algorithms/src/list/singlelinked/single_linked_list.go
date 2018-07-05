@@ -4,33 +4,36 @@ import "errors"
 
 type SingleLinkedList struct {
 	counter int
-	first *SingleLinkedListCell
+	first *SLLCell
 }
+type SLL SingleLinkedList
 
 type SingleLinkedListCell struct {
 	value int
-	next *SingleLinkedListCell
+	next *SLLCell
 }
+type SLLCell SingleLinkedListCell
 
-func (sll *SingleLinkedList) Add(cell int) {
+func (sll *SLL) Add(cell int) {
 	sll.counter++;
+	listCell := createCell(cell)
 	if sll.first == nil {
-		sll.first = createAndAddCell(cell)
+		sll.first = listCell
 	} else {
-		node := sll.iterateUntil(func (index int, node *SingleLinkedListCell) bool { return node.next != nil })
-		node.next = createAndAddCell(cell)
+		node := sll.iterateUntil(func (index int, node *SLLCell) bool { return node.next != nil })
+		node.next = listCell
 	}
 }
 
-func (sll *SingleLinkedList) AddSequence(sequence ...int) {
+func (sll *SLL) AddSequence(sequence ...int) {
 	for _, element := range sequence { sll.Add(element) }
 }
 
-func (sll *SingleLinkedList) Get(position int) (int, error) {
+func (sll *SLL) Get(position int) (int, error) {
 	err := errorCheck(sll.counter, position)
 	var value int
 	if err == nil {
-		node := sll.iterateUntil(func (index int, node *SingleLinkedListCell) bool {return index < position})
+		node := sll.iterateUntil(func (index int, node *SLLCell) bool {return index < position})
 		value = node.value
 	}
 	return value, err	
@@ -46,13 +49,13 @@ func errorCheck(listSize, position int) error {
 	return err
 }
 
-func createAndAddCell(cell int) *SingleLinkedListCell {
-	sllCell := new(SingleLinkedListCell)
+func createCell(cell int) *SLLCell {
+	sllCell := new(SLLCell)
 	sllCell.value = cell
 	return sllCell
 }
 
-func (sll *SingleLinkedList) iterateUntil(iteratingCondition func (int, *SingleLinkedListCell) bool) *SingleLinkedListCell {
+func (sll *SLL) iterateUntil(iteratingCondition func (int, *SLLCell) bool) *SLLCell {
 	node := sll.first
 	for i := 0; iteratingCondition(i, node); i++ {
 		node = node.next
