@@ -13,6 +13,7 @@ func TestSizeShrinksWhenItemIsRemovedCorrectly(t *testing.T) {
 	}
 }
 
+// TODO: Failing test
 func TestItemIsRemovedCorrectly(t *testing.T) {
 	var list SLL
 	list.AddSequence([]int {1, 2, 3}...)
